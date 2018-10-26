@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.xt.dao.CmtInfoDao">
+
+	<!--实体映射-->
+	<resultMap id="base_result_map" type="CmtInfo">
+		<id column="id" property="id"  />
+		<result column="targettype" property="targettype"  />
+		<result column="targetid" property="targetid"  />
+		<result column="targetname" property="targetname"  />
+		<result column="userid" property="userid"  />
+		<result column="username" property="username"  />
+		<result column="createtime" property="createtime"  />
+		<result column="star" property="star"  />
+		<result column="score" property="score"  />
+		<result column="content" property="content"  />
+		<result column="state" property="state"  />
+	</resultMap>
+
+
+	<!-- 通用查询结果列 -->
+	<sql id="base_column_list">
+		 id,targettype,targetid,targetname,userid,username,createtime,star,score,content,state
+	</sql>
+
+	<sql id="base_condition_filed">
+			<if test="id != null">
+				 and  id = #{id}
+			</if>
+			<if test="targettype != null">
+				 and  targettype = #{targettype}
+			</if>
+			<if test="targetid != null">
+				 and  targetid = #{targetid}
+			</if>
+			<if test="targetname != null and targetname!=''">
+				 and  targetname = #{targetname}
+			</if>
+			<if test="userid != null">
+				 and  userid = #{userid}
+			</if>
+			<if test="username != null and username!=''">
+				 and  username = #{username}
+			</if>
+			<if test="createtime != null">
+				 and  createtime = #{createtime}
+			</if>
+			<if test="star != null">
+				 and  star = #{star}
+			</if>
+			<if test="score != null">
+				 and  score = #{score}
+			</if>
+			<if test="content != null and content!=''">
+				 and  content = #{content}
+			</if>
+			<if test="1==1">
+				 and  state = 0
+			</if>
+	</sql>
+
+	<!-- 通用查询条件列-->
+	<sql id="query_condition">
+	<where>
+		<trim prefixOverrides="and">
+			<include refid="base_condition_filed" />
+			<if test="targetnameFuzzy!= null  and targetnameFuzzy!=''">
+				 and  targetname like concat('%', #{targetnameFuzzy}, '%')
+			</if>
+			<if test="usernameFuzzy!= null  and usernameFuzzy!=''">
+				 and  username like concat('%', #{usernameFuzzy}, '%')
+			</if>
+			<if test="contentFuzzy!= null  and contentFuzzy!=''">
+				 and  content like concat('%', #{contentFuzzy}, '%')
+			</if>
+		</trim>
+	 </where>
+	</sql>
+
+	<!-- 查询集合-->
+	<select id="selectList" resultMap="base_result_map" >
+		 SELECT <include refid="base_column_list" /> FROM cmt_infos <include refid="query_condition" />
+		 <if test="orderBy!=null">
+			 order by ${orderBy}
+		 </if>
+	</select>
+
+	<!-- 查询数量-->
+	<select id="selectCount" resultType="java.lang.Integer" >
+		SELECT count(1) FROM cmt_infos <include refid="query_condition" />
+	</select>
+
+	<!-- 插入 （匹配有值的字段）-->
+	<insert id="insert" parameterType="CmtInfo">
+		<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		 INSERT INTO cmt_infos
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="targettype != null">
+				 targettype,
+			</if>
+			<if test="targetid != null">
+				 targetid,
+			</if>
+			<if test="targetname != null">
+				 targetname,
+			</if>
+			<if test="userid != null">
+				 userid,
+			</if>
+			<if test="username != null">
+				 username,
+			</if>
+			<if test="createtime != null">
+				 createtime,
+			</if>
+			<if test="star != null">
+				 star,
+			</if>
+			<if test="score != null">
+				 score,
+			</if>
+			<if test="content != null">
+				 content,
+			</if>
+			<if test="state != null">
+				 state,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="targettype!=null">
+				 #{targettype},
+			</if>
+			<if test="targetid!=null">
+				 #{targetid},
+			</if>
+			<if test="targetname!=null">
+				 #{targetname},
+			</if>
+			<if test="userid!=null">
+				 #{userid},
+			</if>
+			<if test="username!=null">
+				 #{username},
+			</if>
+			<if test="createtime!=null">
+				 #{createtime},
+			</if>
+			<if test="star!=null">
+				 #{star},
+			</if>
+			<if test="score!=null">
+				 #{score},
+			</if>
+			<if test="content!=null">
+				 #{content},
+			</if>
+			<if test="state!=null">
+				 #{state},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 根据Id删除-->
+	<delete id="deleteById">
+		delete from cmt_infos where id=#{id}
+	</delete>
+
+	<!-- 根据PrimaryKey获取对象-->
+	<select id="selectById" resultMap="base_result_map" >
+		select <include refid="base_column_list" /> from cmt_infos where id=#{id}
+	</select>
+
+	<!-- 获取某被评论对象的平均star-->
+	<select id="getAverageStar" resultType="java.lang.Integer" >
+		select avg(star) from cmt_infos where targetid=#{targetid} and targettype = 1
+	</select>
+</mapper>

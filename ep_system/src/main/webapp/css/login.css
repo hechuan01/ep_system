@@ -1,0 +1,237 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+    background: #055b72 url(../images/login/login_bg.jpg) no-repeat center;
+    font-family: "微软雅黑", "宋体";
+    font-size: 12px;
+    text-align: center;
+    color: #333;
+    min-height: 100%;
+    margin: 0;
+    border: none;
+    padding: 0;
+    height: 100%;
+}
+
+ul, li {
+    list-style: none;
+}
+
+ul, li, p, img, input {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+img, input {
+    vertical-align: middle;
+}
+
+.clear {
+    clear: both;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f00;
+    text-decoration: underline;
+}
+
+.container {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 40%;
+    margin-top: -50px;
+}
+
+.content {
+    background: rgba(39, 98, 98, 0.2);
+    width: 521px;
+    height: 273px;
+    padding: 10px;
+    margin: 0 auto;
+    text-align: left;
+    border: solid 1px #91eef1;
+    position: relative;
+}
+
+.content_in {
+    background-color: #fff;
+    padding: 30px 50px;
+}
+
+.posi {
+    position: relative;
+}
+
+.posi label.error {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #ff4040;
+}
+
+.box {
+    background: #fff;
+    border: solid 1px #d8dada;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    width: 421px;
+    height: 38px;
+    margin-bottom: 15px;
+    padding-left: 45px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.box:focus {
+    border: solid 1px #33858b;
+    outline-color: #1fbcca;
+}
+
+.code {
+    position: absolute;
+    right: 5px;
+    top: 6px;
+    width: 85px;
+    height: 25px;
+    text-align: center;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.user_psword {
+    position: absolute;
+    left: 47px;
+    top: 11px;
+    cursor: text;
+    color: #aaa;
+}
+
+.login_box {
+    background: url(../images/login/login_icon1.png) 10px center no-repeat;
+}
+
+.login_box:focus {
+    background: url(../images/login/login_icon11.png) 10px center no-repeat;
+}
+
+.login_box1 {
+    background: url(../images/login/login_icon2.png) 10px center no-repeat;
+}
+
+.login_box1:focus {
+    background: url(../images/login/login_icon21.png) 10px center no-repeat;
+}
+
+.login_box2 {
+    background: url(../images/login/login_icon3.png) 10px center no-repeat;
+}
+
+.login_box2:focus {
+    background: url(../images/login/login_icon31.png) 10px center no-repeat;
+}
+
+.login_btn {
+    background: #1fbcca;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    width: 421px;
+    height: 40px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "微软雅黑";
+}
+
+.login_btn:hover {
+    background: #f27935;
+}
+
+.logo {
+    position: absolute;
+    text-align: center;
+    left: 0;
+    top: -120px;
+    color: #2394b2;
+    font-size: 35px;
+    font-weight: bold;
+    text-shadow: 0px 1px 1px #fff;
+    width: 100%;
+
+}
+
+.logo span {
+    font-size: 16px;
+}
+
+.logo img {
+    margin-right: 5px;
+    float: left;
+
+}
+
+.errMsg {
+    text-align: center;
+    height: 16px;
+    color: red;
+    margin-bottom: 5px;
+    margin-top: -5px;
+}
+
+.disabled {
+    background: #77b2b7;
+}
+
+.disabled.login_btn:hover {
+    background: #77b2b7;
+}
+
+.box_name > i {
+    background: url(../images/login/login_icon1.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_name:hover > i {
+    background: url(../images/login/login_icon11.png) 10px center no-repeat;
+
+}
+
+.box_pwd > i {
+    background: url(../images/login/login_icon2.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_pwd:hover > i {
+    background: url(../images/login/login_icon21.png) 10px center no-repeat;
+}
+
+.box_code > i {
+    background: url(../images/login/login_icon3.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_code:hover > i {
+    background: url(../images/login/login_icon31.png) 10px center no-repeat;
+}

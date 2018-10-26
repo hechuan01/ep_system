@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.system.dao.SysUserDao">
+
+    <!--实体映射-->
+    <resultMap id="base_result_map" type="SysUser">
+        <id column="id" property="id"/>
+        <result column="loginid" property="loginid"/>
+        <result column="fullname" property="fullname"/>
+        <result column="psd" property="psd"/>
+        <result column="deptcode" property="deptcode"/>
+        <result column="sex" property="sex"/>
+        <result column="birthday" property="birthday"/>
+        <result column="mobile" property="mobile"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="messionid" property="messionid"/>
+        <result column="ip" property="ip"/>
+        <result column="photo" property="photo"/>
+        <result column="createtime" property="createtime"/>
+        <result column="lasttime" property="lasttime"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+        <association property="sysDepartment" column="deptcode" select="com.zx.system.dao.SysDepartmentDao.selectByCode"/>
+        <!--<collection property="sysRoles" ofType="SysRole" column="id" select="selectRoleByUserId" javaType="ArrayList"/>-->
+        <collection property="sysRole" ofType="SysRole" column="id" select="selectRoleByUserId"/>
+    </resultMap>
+
+    <select id="selectRoleByUserId" resultType="SysRole">
+        SELECT
+        *
+        FROM sys_roles WHERE id IN (
+        SELECT roleid FROM sys_userroles
+        WHERE userid = #{id}
+        ) limit 1
+    </select>
+
+    <select id="selectUserRoleByUserId" resultType="SysUserRole">
+        select * from sys_userroles where userid=#{userid};
+    </select>
+    <!--<select id="selectRoleByUserId" resultType="SysRole">-->
+    <!--SELECT-->
+    <!--*-->
+    <!--FROM sys_roles WHERE id IN (-->
+    <!--SELECT roleid FROM sys_userroles-->
+    <!--WHERE userid = #{id}-->
+    <!--)-->
+    <!--</select>-->
+
+    <!-- 通用查询结果列 -->
+    <sql id="base_column_list">
+		 id,loginid,fullname,psd,deptcode,sex,birthday,mobile,phone,email,messionid,ip,photo,createtime,lasttime,state,remark
+	</sql>
+
+    <sql id="base_condition_filed">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="loginid != null and loginid!=''">
+            and loginid = #{loginid}
+        </if>
+        <if test="fullname != null and fullname!=''">
+            and fullname = #{fullname}
+        </if>
+        <if test="psd != null and psd!=''">
+            and psd = #{psd}
+        </if>
+        <if test="deptcode != null and deptcode!=''">
+            and deptcode = #{deptcode}
+        </if>
+        <if test="sex != null">
+            and sex = #{sex}
+        </if>
+        <if test="birthday != null">
+            and birthday = #{birthday}
+        </if>
+        <if test="mobile != null and mobile!=''">
+            and mobile = #{mobile}
+        </if>
+        <if test="phone != null and phone!=''">
+            and phone = #{phone}
+        </if>
+        <if test="email != null and email!=''">
+            and email = #{email}
+        </if>
+        <if test="messionid != null and messionid!=''">
+            and messionid = #{messionid}
+        </if>
+        <if test="ip != null and ip!=''">
+            and ip = #{ip}
+        </if>
+        <if test="photo != null and photo!=''">
+            and photo = #{photo}
+        </if>
+        <if test="createtime != null">
+            and createtime = #{createtime}
+        </if>
+        <if test="lasttime != null">
+            and lasttime = #{lasttime}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="remark != null and remark!=''">
+            and remark = #{remark}
+        </if>
+    </sql>
+
+    <!-- 通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_filed"/>
+                <if test="loginidFuzzy!= null  and loginidFuzzy!=''">
+                    and loginid like concat('%', #{loginidFuzzy}, '%')
+                </if>
+                <if test="fullnameFuzzy!= null  and fullnameFuzzy!=''">
+                    and fullname like concat('%', #{fullnameFuzzy}, '%')
+                </if>
+                <if test="psdFuzzy!= null  and psdFuzzy!=''">
+                    and psd like concat('%', #{psdFuzzy}, '%')
+                </if>
+                <if test="deptcodeFuzzy!= null  and deptcodeFuzzy!=''">
+                    and deptcode like concat('%', #{deptcodeFuzzy}, '%')
+                </if>
+                <if test="birthdayStart!= null and birthdayStart!=''">
+                    <![CDATA[ and  birthday>=str_to_date('${birthdayStart}', '%Y-%m-%d') ]]>
+                </if>
+                <if test="birthdayEnd!= null and birthdayEnd!=''">
+                    <![CDATA[ and  birthday< date_sub(str_to_date('${birthdayEnd}','%Y-%m-%d'),interval -1 day) ]]>
+                </if>
+                <if test="mobileFuzzy!= null  and mobileFuzzy!=''">
+                    and mobile like concat('%', #{mobileFuzzy}, '%')
+                </if>
+                <if test="phoneFuzzy!= null  and phoneFuzzy!=''">
+                    and phone like concat('%', #{phoneFuzzy}, '%')
+                </if>
+                <if test="emailFuzzy!= null  and emailFuzzy!=''">
+                    and email like concat('%', #{emailFuzzy}, '%')
+                </if>
+                <if test="messionidFuzzy!= null  and messionidFuzzy!=''">
+                    and messionid like concat('%', #{messionidFuzzy}, '%')
+                </if>
+                <if test="ipFuzzy!= null  and ipFuzzy!=''">
+                    and ip like concat('%', #{ipFuzzy}, '%')
+                </if>
+                <if test="photoFuzzy!= null  and photoFuzzy!=''">
+                    and photo like concat('%', #{photoFuzzy}, '%')
+                </if>
+                <if test="createtimeStart!= null and createtimeStart!=''">
+                    <![CDATA[ and  createtime>=str_to_date('${createtimeStart}', '%Y-%m-%d') ]]>
+                </if>
+                <if test="createtimeEnd!= null and createtimeEnd!=''">
+                    <![CDATA[ and  createtime< date_sub(str_to_date('${createtimeEnd}','%Y-%m-%d'),interval -1 day) ]]>
+                </if>
+                <if test="lasttimeStart!= null and lasttimeStart!=''">
+                    <![CDATA[ and  lasttime>=str_to_date('${lasttimeStart}', '%Y-%m-%d') ]]>
+                </if>
+                <if test="lasttimeEnd!= null and lasttimeEnd!=''">
+                    <![CDATA[ and  lasttime< date_sub(str_to_date('${lasttimeEnd}','%Y-%m-%d'),interval -1 day) ]]>
+                </if>
+                <if test="remarkFuzzy!= null  and remarkFuzzy!=''">
+                    and remark like concat('%', #{remarkFuzzy}, '%')
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_users
+        <include refid="query_condition"/>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_users
+        <include refid="query_condition"/>
+    </select>
+
+    <!-- 插入 （匹配有值的字段）-->
+    <insert id="insert" parameterType="SysUser" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO sys_users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginid != null">
+                loginid,
+            </if>
+            <if test="fullname != null">
+                fullname,
+            </if>
+            <if test="psd != null">
+                psd,
+            </if>
+            <if test="deptcode != null">
+                deptcode,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="messionid != null">
+                messionid,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="lasttime != null">
+                lasttime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginid!=null">
+                #{loginid},
+            </if>
+            <if test="fullname!=null">
+                #{fullname},
+            </if>
+            <if test="psd!=null">
+                #{psd},
+            </if>
+            <if test="deptcode!=null">
+                #{deptcode},
+            </if>
+            <if test="sex!=null">
+                #{sex},
+            </if>
+            <if test="birthday!=null">
+                #{birthday},
+            </if>
+            <if test="mobile!=null">
+                #{mobile},
+            </if>
+            <if test="phone!=null">
+                #{phone},
+            </if>
+            <if test="email!=null">
+                #{email},
+            </if>
+            <if test="messionid!=null">
+                #{messionid},
+            </if>
+            <if test="ip!=null">
+                #{ip},
+            </if>
+            <if test="photo!=null">
+                #{photo},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="lasttime!=null">
+                #{lasttime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+            <if test="remark!=null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 插入或者更新 （匹配有值的字段）-->
+    <insert id="insertOrUpdate" parameterType="SysUser">
+        INSERT INTO sys_users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="loginid != null">
+                loginid,
+            </if>
+            <if test="fullname != null">
+                fullname,
+            </if>
+            <if test="psd != null">
+                psd,
+            </if>
+            <if test="deptcode != null">
+                deptcode,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="messionid != null">
+                messionid,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="lasttime != null">
+                lasttime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="loginid!=null">
+                #{loginid},
+            </if>
+            <if test="fullname!=null">
+                #{fullname},
+            </if>
+            <if test="psd!=null">
+                #{psd},
+            </if>
+            <if test="deptcode!=null">
+                #{deptcode},
+            </if>
+            <if test="sex!=null">
+                #{sex},
+            </if>
+            <if test="birthday!=null">
+                #{birthday},
+            </if>
+            <if test="mobile!=null">
+                #{mobile},
+            </if>
+            <if test="phone!=null">
+                #{phone},
+            </if>
+            <if test="email!=null">
+                #{email},
+            </if>
+            <if test="messionid!=null">
+                #{messionid},
+            </if>
+            <if test="ip!=null">
+                #{ip},
+            </if>
+            <if test="photo!=null">
+                #{photo},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="lasttime!=null">
+                #{lasttime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+            <if test="remark!=null">
+                #{remark},
+            </if>
+        </trim>
+        on DUPLICATE key
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="loginid!=null">
+                loginid = VALUES(loginid),
+            </if>
+            <if test="fullname!=null">
+                fullname = VALUES(fullname),
+            </if>
+            <if test="psd!=null">
+                psd = VALUES(psd),
+            </if>
+            <if test="deptcode!=null">
+                deptcode = VALUES(deptcode),
+            </if>
+            <if test="sex!=null">
+                sex = VALUES(sex),
+            </if>
+            <if test="birthday!=null">
+                birthday = VALUES(birthday),
+            </if>
+            <if test="mobile!=null">
+                mobile = VALUES(mobile),
+            </if>
+            <if test="phone!=null">
+                phone = VALUES(phone),
+            </if>
+            <if test="email!=null">
+                email = VALUES(email),
+            </if>
+            <if test="messionid!=null">
+                messionid = VALUES(messionid),
+            </if>
+            <if test="ip!=null">
+                ip = VALUES(ip),
+            </if>
+            <if test="photo!=null">
+                photo = VALUES(photo),
+            </if>
+            <if test="createtime!=null">
+                createtime = VALUES(createtime),
+            </if>
+            <if test="lasttime!=null">
+                lasttime = VALUES(lasttime),
+            </if>
+            <if test="state!=null">
+                state = VALUES(state),
+            </if>
+            <if test="remark!=null">
+                remark = VALUES(remark),
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 添加 （批量插入）-->
+    <insert id="insertBatch" parameterType="SysUser">
+        INSERT INTO
+        sys_users(loginid,fullname,psd,deptcode,sex,birthday,mobile,phone,email,messionid,ip,photo,createtime,lasttime,state,remark)values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.loginid},#{item.fullname},#{item.psd},#{item.deptcode},#{item.sex},#{item.birthday},#{item.mobile},#{item.phone},#{item.email},#{item.messionid},#{item.ip},#{item.photo},#{item.createtime},#{item.lasttime},#{item.state},#{item.remark}
+            )
+        </foreach>
+    </insert>
+    <update id="updateUserRole" parameterType="SysUserRole">
+      UPDATE  Sys_userroles SET roleid =#{roleid} WHERE id=#{id} AND userid=#{userid}
+    </update>
+    <!-- 根据Id修改-->
+    <update id="update" parameterType="SysUser">
+        UPDATE sys_users
+        <set>
+            <if test="loginid != null">
+                loginid = #{loginid},
+            </if>
+            <if test="fullname != null">
+                fullname = #{fullname},
+            </if>
+            <if test="psd != null">
+                psd = #{psd},
+            </if>
+            <if test="deptcode != null">
+                deptcode = #{deptcode},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="messionid != null">
+                messionid = #{messionid},
+            </if>
+            <if test="ip != null">
+                ip = #{ip},
+            </if>
+            <if test="photo != null">
+                photo = #{photo},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="lasttime != null">
+                lasttime = #{lasttime},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+		delete from sys_users where id=#{id}
+	</delete>
+    <select id="selectNameById" resultType="java.lang.String">
+        select fullname from sys_users where id=#{id}
+    </select>
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_users where id=#{id}
+    </select>
+    <select id="selectUserByLogin" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0 limit 1
+    </select>
+    <insert id="insertUserRole">
+        INSERT INTO sys_userroles (userid,roleid) VALUE (#{userId},#{roleId})
+    </insert>
+
+    <!-- 根据多个角色分组查人人员-->
+    <select id="getListByRoleList" resultMap="base_result_map">
+        SELECT a.id,a.loginid,a.fullname,a.psd,a.deptcode,a.sex,a.birthday,a.mobile,a.phone,a.email,a.messionid,a.ip,a.photo,a.createtime,a.lasttime,a.state,a.remark
+        FROM sys_users AS  a
+        inner join sys_userroles AS b ON a.id=b.userid
+        where b.roleid IN
+        <foreach item="roleid" collection="list" open="(" separator="," close=")">
+        #{roleid}
+    </foreach>
+    </select>
+</mapper>

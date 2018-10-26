@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC
+        "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.zx.common.utils.PagerModel" alias="PagerModel" />
+        <typeAlias type="com.zx.common.enums.TypeEnums" alias="TypeEnums" />
+
+
+        <typeAlias type="com.zx.system.model.SysUser" alias="SysUser" />
+        <typeAlias type="com.zx.system.model.SysCategory" alias="SysCategory" />
+        <typeAlias type="com.zx.system.model.SysDepartment" alias="SysDepartment" />
+        <typeAlias type="com.zx.system.model.SysModule" alias="SysModule" />
+        <typeAlias type="com.zx.system.model.SysRole" alias="SysRole" />
+        <typeAlias type="com.zx.system.model.SysUserRole" alias="SysUserRole" />
+        <typeAlias type="com.zx.system.model.SysRolemodule" alias="SysRolemodule" />
+        <typeAlias type="com.zx.system.model.SysQuery" alias="SysQuery" />
+        <typeAlias type="com.zx.system.model.SysNotification" alias="SysNotification" />
+
+
+        <typeAlias type="com.zx.xt.model.CmtInfo" alias="CmtInfo" />
+        <typeAlias type="com.zx.xt.model.SearchLog" alias="SearchLog"/>
+
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins>
+</configuration>

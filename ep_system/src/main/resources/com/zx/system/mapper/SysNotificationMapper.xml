@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.system.dao.SysNotificationDao">
+
+    <!--实体映射-->
+    <resultMap id="base_result_map" type="SysNotification">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+        <result column="sourceid" property="sourceid"/>
+        <result column="targettype" property="targettype"/>
+        <result column="targetkey" property="targetkey"/>
+        <result column="createrid" property="createrid"/>
+        <result column="createtime" property="createtime"/>
+        <result column="state" property="state"/>
+        <association property="creater" column="createrid" select="com.zx.system.dao.SysUserDao.selectNameById"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="base_column_list">
+        id,title,content,type,sourceid,targettype,targetkey,createrid,createtime,state
+    </sql>
+
+    <sql id="base_condition_filed">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="title != null and title!=''">
+            and title = #{title}
+        </if>
+        <if test="content != null and content!=''">
+            and content = #{content}
+        </if>
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="sourceid != null">
+            and sourceid = #{sourceid}
+        </if>
+
+        <if test="targetkey != null and targetkey!=''">
+            and targetkey = #{targetkey}
+        </if>
+        <if test="createrid != null">
+            and createrid = #{createrid}
+        </if>
+        <if test="createtime != null">
+            and createtime = #{createtime}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        and state != -1
+        and (
+        <trim prefixOverrides="or">
+            <if test="userId!= null  and userId!=''">
+                or (targetkey =#{userId} AND targettype = 0)
+            </if>
+            <if test="deptId!= null  and deptId!=''">
+                or (targetkey =#{deptId} AND targettype = 1)
+            </if>
+            <if test="roleId!= null  and roleId!=''">
+                or (targetkey =#{roleId} AND targettype = 2)
+            </if>
+        </trim>
+        )
+    </sql>
+
+    <!-- 通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_filed"/>
+                <if test="titleFuzzy!= null  and titleFuzzy!=''">
+                    and title like concat('%', #{titleFuzzy}, '%')
+                </if>
+                <if test="contentFuzzy!= null  and contentFuzzy!=''">
+                    and content like concat('%', #{contentFuzzy}, '%')
+                </if>
+                <if test="targetkeyFuzzy!= null  and targetkeyFuzzy!=''">
+                    and targetkey like concat('%', #{targetkeyFuzzy}, '%')
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_notifications
+        <include refid="query_condition"/>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM sys_notifications
+        <include refid="query_condition"/>
+    </select>
+
+    <!-- 插入 （匹配有值的字段）-->
+    <insert id="insert" parameterType="SysNotification">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO sys_notifications
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="sourceid != null">
+                sourceid,
+            </if>
+            <if test="targettype != null">
+                targettype,
+            </if>
+            <if test="targetkey != null">
+                targetkey,
+            </if>
+            <if test="createrid != null">
+                createrid,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title!=null">
+                #{title},
+            </if>
+            <if test="content!=null">
+                #{content},
+            </if>
+            <if test="type!=null">
+                #{type},
+            </if>
+            <if test="sourceid!=null">
+                #{sourceid},
+            </if>
+            <if test="targettype!=null">
+                #{targettype},
+            </if>
+            <if test="targetkey!=null">
+                #{targetkey},
+            </if>
+            <if test="createrid!=null">
+                #{createrid},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 插入或者更新 （匹配有值的字段）-->
+    <insert id="insertOrUpdate" parameterType="SysNotification">
+        INSERT INTO sys_notifications
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="sourceid != null">
+                sourceid,
+            </if>
+            <if test="targettype != null">
+                targettype,
+            </if>
+            <if test="targetkey != null">
+                targetkey,
+            </if>
+            <if test="createrid != null">
+                createrid,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="title!=null">
+                #{title},
+            </if>
+            <if test="content!=null">
+                #{content},
+            </if>
+            <if test="type!=null">
+                #{type},
+            </if>
+            <if test="sourceid!=null">
+                #{sourceid},
+            </if>
+            <if test="targettype!=null">
+                #{targettype},
+            </if>
+            <if test="targetkey!=null">
+                #{targetkey},
+            </if>
+            <if test="createrid!=null">
+                #{createrid},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+        </trim>
+        on DUPLICATE key
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="title!=null">
+                title = VALUES(title),
+            </if>
+            <if test="content!=null">
+                content = VALUES(content),
+            </if>
+            <if test="type!=null">
+                type = VALUES(type),
+            </if>
+            <if test="sourceid!=null">
+                sourceid = VALUES(sourceid),
+            </if>
+            <if test="targettype!=null">
+                targettype = VALUES(targettype),
+            </if>
+            <if test="targetkey!=null">
+                targetkey = VALUES(targetkey),
+            </if>
+            <if test="createrid!=null">
+                createrid = VALUES(createrid),
+            </if>
+            <if test="createtime!=null">
+                createtime = VALUES(createtime),
+            </if>
+            <if test="state!=null">
+                state = VALUES(state),
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 添加 （批量插入）-->
+    <insert id="insertBatch" parameterType="SysNotification">
+        INSERT INTO sys_notifications(title,content,type,sourceid,targettype,targetkey,createrid,createtime,state)values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.title},#{item.content},#{item.type},#{item.sourceid},#{item.targettype},#{item.targetkey},#{item.createrid},#{item.createtime},#{item.state}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据Id修改-->
+    <update id="update" parameterType="SysNotification">
+        UPDATE sys_notifications
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="sourceid != null">
+                sourceid = #{sourceid},
+            </if>
+            <if test="targettype != null">
+                targettype = #{targettype},
+            </if>
+            <if test="targetkey != null">
+                targetkey = #{targetkey},
+            </if>
+            <if test="createrid != null">
+                createrid = #{createrid},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="deleteList" parameterType="java.lang.Integer">
+        UPDATE sys_notifications
+        set state = -1
+        where id in (
+        <foreach collection="list" item="item" separator=",">
+            ${item}
+        </foreach>
+        )
+    </update>
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+        UPDATE sys_notifications SET state = -1 where id=#{id}
+    </delete>
+    <delete id="deleteBySID">
+        UPDATE sys_notifications SET state = -1  where sourceid=#{0} AND  type=#{1}
+    </delete>
+
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_notifications where id=#{id}
+    </select>
+
+</mapper>

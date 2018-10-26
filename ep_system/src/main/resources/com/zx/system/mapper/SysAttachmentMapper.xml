@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.system.dao.SysAttachmentDao">
+
+    <resultMap type="com.zx.system.model.SysAttachment" id="base_result_map">
+        <id property="id" column="id"/>
+        <result property="attType" column="attType"/>
+        <result property="attname" column="attname"/>
+        <result property="attpath" column="attpath"/>
+        <result property="targetid" column="targetid"/>
+        <result property="remark" column="remark"/>
+        <result property="createrid" column="createrid"/>
+        <result property="createtime" column="createtime"/>
+        <result property="state" column="state"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="base_column_list">
+        id,attType,attname,attpath,targetid,remark,createrid,createtime,state
+    </sql>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zx.system.model.SysAttachment">
+        insert into sys_attachments(attType,attname,attpath,targetid,remark,createrid,createtime,state)
+        values(#{attType},#{attname},#{attpath},#{targetid},#{remark},#{createrid},#{createtime},#{state})
+    </insert>
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="base_result_map" >
+        select <include refid="base_column_list" /> from sys_attachments where id=#{id}
+    </select>
+    <!-- 根据公告id获取关联角色id -->
+    <select id="getByTargetidAttType" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_attachments WHERE targetid=#{0} AND attType=#{1}
+    </select>
+
+    <!-- 根据Id修改-->
+    <update id="update" parameterType="com.zx.system.model.SysAttachment">
+        UPDATE sys_attachments
+        <set>
+            <if test="attpath != null">
+                attpath = #{attpath},
+            </if>
+            <if test="attname != null">
+                attname = #{attname},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!-- 根据目标Id和类型删除-->
+    <delete id="delByTargetidAttType">
+        delete from sys_attachments where targetid=#{0} AND attType=#{1}
+    </delete>
+
+</mapper>
+

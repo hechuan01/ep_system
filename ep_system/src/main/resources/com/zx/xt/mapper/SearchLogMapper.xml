@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.xt.dao.SearchLogDao">
+    <!--实体映射-->
+    <resultMap id="base_result_map" type="SearchLog">
+        <id column="id" property="id"></id>
+        <result column="createid" property="createid"></result>
+        <result column="createtime" property="createtime" jdbcType="DECIMAL"></result>
+        <result column="searchContent" property="searchcontent"></result>
+        <result column="searchResult" property="searchresult"></result>
+        <result column="searchType" property="searchtype"></result>
+    </resultMap>
+    <!--通用查询列-->
+    <sql id="base_column_list">
+        id,createid,createtime,searchContent,searchResult,searchType
+    </sql>
+    <sql id="base_condition_field">
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="createtime!=null">
+            and createtime=#{createtime}
+        </if>
+        <if test="createid!=null and createid!=''">
+            and createid=#{createid}
+        </if>
+        <if test="searchcontent!=null and searchcontent!=''">
+            and searchContent=#{searchcontent}
+        </if>
+        <if test="searchresult!=null and searchresult!=''">
+            and searchResult=#{searchresult}
+        </if>
+        <if test="searchtype!=null and searchtype!=''">
+            and searchType=#{searchtype}
+        </if>
+    </sql>
+    <!--通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_field"></include>
+                <if test="createidFuzzy!=null and createidFuzzy!=''">
+                    and createid=#{createidFuzzy}
+                </if>
+                <if test="searchtype!=null and searchtype!=''">
+                    and searchType=#{searchtype}
+                </if>
+            </trim>
+        </where>
+    </sql>
+    <!--查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM search_log
+        <include refid="query_condition"></include>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+    </select>
+
+    <!--插入-->
+    <insert id="insert" parameterType="SearchLog">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO search_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createid!=null">
+                createid,
+            </if>
+            <if test="createtime!=null">
+                createtime,
+            </if>
+            <if test="searchcontent!=null and searchcontent!=''">
+                searchcontent,
+            </if>
+            <if test="searchresult!=null and searchresult!=''">
+                searchresult,
+            </if>
+            <if test="searchtype!=null">
+                searchtype,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="createid!=null">
+                #{createid},
+            </if>
+            <if test="createtime!=null ">
+                #{createtime},
+            </if>
+            <if test="searchcontent!=null and searchcontent!=''">
+                #{searchcontent},
+            </if>
+            <if test="searchresult!=null and searchresult!=''">
+                #{searchresult},
+            </if>
+            <if test="searchtype!=null">
+                #{searchtype},
+            </if>
+        </trim>
+    </insert>
+
+    <!--查询统计-->
+    <select id="selectCount" resultType="java.util.HashMap">
+        Select DATE_FORMAT(createtime,"%Y-%m-%d") dateTime,COUNT(*) cnt From search_log Where
+        1=1
+        <if test="createtimestart!=null">
+
+            <![CDATA[ AND   UNIX_TIMESTAMP(createtime) >=UNIX_TIMESTAMP(#{createtimestart}) ]]>
+        </if>
+        <if test="createtimeend!=null">
+            <![CDATA[ AND  UNIX_TIMESTAMP(createtime) <=UNIX_TIMESTAMP(#{createtimeend}) ]]>
+        </if>
+        and searchType=0
+        GROUP BY DATE_FORMAT(createtime,"%Y-%m-%d")
+    </select>
+</mapper>
+

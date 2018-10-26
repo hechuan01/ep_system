@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.system.dao.SysReceiveDao">
+
+    <resultMap type="com.zx.system.model.SysReceive" id="sysReceive">
+        <id property="id" column="id"/>
+        <result property="revtype" column="revtype"/>
+        <result property="targetid" column="targetid"/>
+        <result property="roleid" column="roleid"/>
+    </resultMap>
+
+
+    <insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_receives
+        (revtype, targetid, roleid)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.revtype},#{item.targetid},#{item.roleid})
+        </foreach>
+    </insert>
+    <!-- 根据公告id获取关联角色id -->
+    <select id="getRolesByNoticeOrSurveyId" resultType="java.lang.Integer">
+        select roleid from sys_receives WHERE targetid=#{0} AND revtype=#{1}
+    </select>
+    <!--根据公告或调研id 删除关联记录-->
+    <delete id="delete">
+        delete from sys_receives where targetid=#{0} AND revtype=#{1}
+    </delete>
+
+</mapper>
+

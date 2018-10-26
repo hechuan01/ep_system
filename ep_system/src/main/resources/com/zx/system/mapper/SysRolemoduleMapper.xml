@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.system.dao.SysRolemoduleDao">
+
+    <!--实体映射-->
+    <resultMap id="base_result_map" type="SysRolemodule">
+        <id column="id" property="id"/>
+        <result column="roleid" property="roleid"/>
+        <result column="mcode" property="mcode"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="base_column_list">
+		 id,roleid,mcode
+	</sql>
+
+    <sql id="base_condition_filed">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="roleid != null">
+            and roleid = #{roleid}
+        </if>
+        <if test="mcode != null and mcode!=''">
+            and mcode = #{mcode}
+        </if>
+    </sql>
+
+    <!-- 通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_filed"/>
+                <if test="mcodeFuzzy!= null  and mcodeFuzzy!=''">
+                    and mcode like concat('%', #{mcodeFuzzy}, '%')
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_rolemodules
+        <include refid="query_condition"/>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="page!=null">
+            limit #{page.start},#{page.end}
+        </if>
+    </select>
+
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_rolemodules
+        <include refid="query_condition"/>
+    </select>
+
+    <!-- 插入 （匹配有值的字段）-->
+    <insert id="insert" parameterType="SysRolemodule">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO sys_rolemodules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleid != null">
+                roleid,
+            </if>
+            <if test="mcode != null">
+                mcode,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleid!=null">
+                #{roleid},
+            </if>
+            <if test="mcode!=null">
+                #{mcode},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 插入或者更新 （匹配有值的字段）-->
+    <insert id="insertOrUpdate" parameterType="SysRolemodule">
+        INSERT INTO sys_rolemodules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleid != null">
+                roleid,
+            </if>
+            <if test="mcode != null">
+                mcode,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="roleid!=null">
+                #{roleid},
+            </if>
+            <if test="mcode!=null">
+                #{mcode},
+            </if>
+        </trim>
+        on DUPLICATE key
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="roleid!=null">
+                roleid = VALUES(roleid),
+            </if>
+            <if test="mcode!=null">
+                mcode = VALUES(mcode),
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 添加 （批量插入）-->
+    <insert id="insertBatch" parameterType="SysRolemodule">
+        INSERT INTO sys_rolemodules(roleid,mcode)values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.roleid},#{item.mcode}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据Id修改-->
+    <update id="update" parameterType="SysRolemodule">
+        UPDATE sys_rolemodules
+        <set>
+            <if test="roleid != null">
+                roleid = #{roleid},
+            </if>
+            <if test="mcode != null">
+                mcode = #{mcode},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+		delete from sys_rolemodules where id=#{id}
+	</delete>
+
+    <delete id="deleteByRoleId">
+		delete from sys_rolemodules where roleid=#{roleId}
+	</delete>
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_rolemodules where id=#{id}
+    </select>
+
+</mapper>

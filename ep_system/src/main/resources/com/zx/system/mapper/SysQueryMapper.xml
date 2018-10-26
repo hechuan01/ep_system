@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.system.dao.SysQueryDao">
+    <resultMap id="BaseResultMap" type="com.zx.system.model.SysQuery">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="querytype" jdbcType="TINYINT" property="querytype"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="createid" jdbcType="INTEGER" property="createid"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="finishtime" jdbcType="TIMESTAMP" property="finishtime"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+    </resultMap>
+    <!--插入-->
+    <insert id="insert" parameterType="SysQuery">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO sys_querys
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="querytype != null">
+                querytype,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="createid != null">
+                createid,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="finishtime != null">
+                finishtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="querytype!=null">
+                #{querytype},
+            </if>
+            <if test="keywords!=null">
+                #{keywords},
+            </if>
+            <if test="createid!=null">
+                #{createid},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="finishtime!=null">
+                #{finishtime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 插入或者更新 （匹配有值的字段）-->
+    <!--<insert id="insertOrUpdate" parameterType="SysQuery">-->
+        <!--INSERT INTO sys_querys-->
+        <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+            <!--<if test="id != null">-->
+                <!--id,-->
+            <!--</if>-->
+            <!--<if test="querytype != null">-->
+                <!--querytype,-->
+            <!--</if>-->
+            <!--<if test="keywords != null">-->
+                <!--keywords,-->
+            <!--</if>-->
+            <!--<if test="createid != null">-->
+                <!--createid,-->
+            <!--</if>-->
+            <!--<if test="createtime != null">-->
+                <!--createtime,-->
+            <!--</if>-->
+            <!--<if test="finishtime != null">-->
+                <!--finishtime,-->
+            <!--</if>-->
+            <!--<if test="state != null">-->
+                <!--state,-->
+            <!--</if>-->
+        <!--</trim>-->
+        <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+            <!--<if test="id!=null">-->
+                <!--#{id},-->
+            <!--</if>-->
+            <!--<if test="querytype!=null">-->
+                <!--#{querytype},-->
+            <!--</if>-->
+            <!--<if test="keywords!=null">-->
+                <!--#{keywords},-->
+            <!--</if>-->
+            <!--<if test="createid!=null">-->
+                <!--#{createid},-->
+            <!--</if>-->
+            <!--<if test="createtime!=null">-->
+                <!--#{createtime},-->
+            <!--</if>-->
+            <!--<if test="finishtime!=null">-->
+                <!--#{finishtime},-->
+            <!--</if>-->
+            <!--<if test="state!=null">-->
+                <!--#{state},-->
+            <!--</if>-->
+        <!--</trim>-->
+        <!--on DUPLICATE key-->
+        <!--<trim prefix="" suffix="" suffixOverrides=",">-->
+            <!--<if test="querytype!=null">-->
+                <!--querytype = VALUES(querytype),-->
+            <!--</if>-->
+            <!--<if test="keywords!=null">-->
+                <!--keywords = VALUES(keywords),-->
+            <!--</if>-->
+            <!--<if test="createid!=null">-->
+                <!--createid = VALUES(createid),-->
+            <!--</if>-->
+            <!--<if test="createtime!=null">-->
+                <!--createtime = VALUES(createtime),-->
+            <!--</if>-->
+            <!--<if test="finishtime!=null">-->
+                <!--finishtime = VALUES(finishtime),-->
+            <!--</if>-->
+            <!--<if test="state!=null">-->
+                <!--state = VALUES(state),-->
+            <!--</if>-->
+        <!--</trim>-->
+    <!--</insert>-->
+    <update id="update" parameterType="com.zx.system.model.SysQuery">
+        <!--UPDATE sys_querys-->
+        <!--<set>-->
+            <!--<if test="querytype != null">-->
+                <!--querytype=#{querytype}-->
+            <!--</if>-->
+            <!--<if test="keywords != null">-->
+                <!--keywords=#{keywords},-->
+            <!--</if>-->
+            <!--<if test="createid != null">-->
+                <!--createid=#{createid},-->
+            <!--</if>-->
+            <!--<if test="createtime != null">-->
+                <!--createtime=#{createtime},-->
+            <!--</if>-->
+            <!--<if test="finishtime != null">-->
+                <!--finishtime=#{finishtime},-->
+            <!--</if>-->
+            <!--<if test="state != null">-->
+                <!--state=#{state}-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where id=#{id}-->
+
+        UPDATE sys_querys SET querytype=#{querytype},keywords=#{keywords},createid=#{createid},createtime=#{createtime},finishtime=#{finishtime},state=#{state}
+        where id=#{id}
+    </update>
+    <!--根據ID修改-->
+
+    <!--通用查询结果列-->
+    <sql id="base_column_list">
+    id,querytype,keywords,createid,createtime,finishtime,state
+  </sql>
+    <sql id="base_condition_field">
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="querytype!=null">
+            and querytype=#{querytype}
+        </if>
+        <if test="keywords!=null">
+            and keywords=#{keywords}
+        </if>
+        <if test="createid!=null">
+            and createid=#{createid}
+        </if>
+        <if test="createtime">
+            and createtime=#{createtime}
+        </if>
+        <if test="finishtime">
+            and finishtime=#{finishtime}
+        </if>
+        <if test="state">
+            and state=#{state}
+        </if>
+    </sql>
+    <!--通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_field"></include>
+                <if test="keywordsFuzzy!=null and keywordsFuzzy!=''">
+                    and keywords like concat('%',#{keywordsFuzzy},'%')
+                </if>
+                <if test="createidFuzzy!=null and createidFuzzy!=''">
+                    and createid=#{createidFuzzy}
+                </if>
+                <if test="stateFuzzy!=null and stateFuzzy!=''">
+                    and state!=#{stateFuzzy}
+                </if>
+            </trim>
+        </where>
+    </sql>
+    <!--集合查询-->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_querys
+        <include refid="query_condition"/>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_querys
+        <include refid="query_condition"></include>
+    </select>
+    <!--根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="base_column_list">
+        </include>
+        FROM sys_querys where id=#{id}
+    </select>
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+        delete from sys_querys where id=#{id}
+    </delete>
+
+</mapper>

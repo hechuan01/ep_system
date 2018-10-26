@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.system.dao.SysNoticeDao">
+
+    <resultMap type="com.zx.system.model.SysNotice" id="sysNotice">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="starttime" column="starttime"/>
+        <result property="endtime" column="endtime"/>
+        <result property="createrid" column="createrid"/>
+        <result property="createrid" column="createrid"/>
+        <result property="createtime" column="createtime"/>
+        <result property="state" column="state"/>
+
+        <association property="creatername" column="createrid" select="selectUserNameByUserId"/>
+        <!--  <collection property="sysAttachment" ofType="com.zx.system.model.SysAttachment" column="id"
+                      select="selectAttachmentByNotice"/>-->
+        <association property="sysAttachment" column="id" select="selectAttachmentByNotice">
+    </association>
+        <association property="sysReceipt" column="id" select="selectReceiptByNotice">
+    </association>
+    </resultMap>
+
+    <select id="selectUserNameByUserId" resultType="java.lang.String">
+        SELECT fullname FROM sys_users WHERE id  = #{id}
+    </select>
+    <select id="selectAttachmentByNotice" resultType="com.zx.system.model.SysAttachment">
+        SELECT *  FROM sys_attachments WHERE targetid = #{id} AND attType=3 limit 1
+    </select>
+    <select id="selectReceiptByNotice" resultType="com.zx.system.model.SysReceipt">
+        SELECT *  FROM sys_receipts WHERE targetid = #{id} AND rectype=1 limit 1
+    </select>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zx.system.model.SysNotice">
+        insert into sys_notices(title,content,starttime,endtime,createrid,createtime,state)
+        values(#{title},#{content},#{starttime},#{endtime},#{createrid},#{createtime},#{state})
+    </insert>
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_notices
+        <where>
+            state != -1/*已删除不查询*/
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+            <if test="roleid != null">
+                AND id in (SELECT targetid FROM sys_receives where revtype=1 AND roleid=#{roleid})
+            </if>
+
+        </where>
+    </select>
+    <!-- 分页查询集合-->
+    <select id="selectList" resultMap="sysNotice">
+        SELECT id,title,content,starttime,endtime,createrid,createtime,state
+        FROM sys_notices
+        <where>
+            state != -1/*已删除不查询*/
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+            <if test="roleid != null">
+                AND id in (SELECT targetid FROM sys_receives where revtype=1 AND roleid=#{roleid})
+            </if>
+            <if test="title != null">
+                AND title LIKE concat('%', #{title}, '%')
+            </if>
+
+        </where>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="sysNotice">
+        select id,title,content,starttime,endtime,createrid,createtime,state
+        from sys_notices where id=#{id}
+
+    </select>
+
+    <update id="update" parameterType="com.zx.system.model.SysNotice">
+        UPDATE  sys_notices SET title =#{title},starttime=#{starttime},endtime=#{endtime},content=#{content},state=#{state}  WHERE id=#{id}
+    </update>
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+        delete from sys_notices where id=#{id}
+    </delete>
+    <!-- 软删除-->
+    <update id="safeDeleteById" parameterType="java.lang.Integer">
+        UPDATE  sys_notices SET state =-1 WHERE id=#{id}
+    </update>
+    <!--状态(-1删除0待启动1公告中2已取消3已结束)
+    定时更新状态方法-->
+    <!--    &lt;    <     小于号
+            &gt;    >     大于号
+            &amp;   &     和
+            &apos;  ’     单引号
+            &quot;  "     双引号
+            <![CDATA[ AND beginTime >= "${beginTime}" ]]>
+            -->
+    <update id="updateNoticeAndsSurveyState" parameterType="java.lang.String">
+
+       /* UPDATE  sys_notices SET state=0 WHERE state != 0 AND state != -1 AND state != 2 AND starttime > STR_TO_DATE(#{date1}, '%Y-%m-%d');*/
+        UPDATE  sys_notices SET state=3 WHERE state != 3 AND state != -1 AND state != 0 AND state != 2 AND  endtime &lt; STR_TO_DATE(#{date1}, '%Y-%m-%d');
+       /* UPDATE  sys_notices SET state=1 WHERE state != 1 AND state != -1 AND state != 2 AND starttime &lt; STR_TO_DATE(#{date1}, '%Y-%m-%d')   AND endtime >*/ STR_TO_DATE(#{date1}, '%Y-%m-%d');
+
+
+        /*UPDATE  sys_surveys SET state=0 WHERE state != 0 AND state != -1 AND state != 2 AND starttime > STR_TO_DATE(#{date1}, '%Y-%m-%d');*/
+        UPDATE  sys_surveys SET state=3 WHERE state != 3 AND state != -1 AND state != 0 AND state != 2 AND  endtime &lt; STR_TO_DATE(#{date1}, '%Y-%m-%d');
+        /*UPDATE  sys_surveys SET state=1 WHERE state != 1 AND state != -1 AND state != 2 AND starttime &lt; STR_TO_DATE(#{date1}, '%Y-%m-%d')   AND endtime > STR_TO_DATE(#{date1}, '%Y-%m-%d');*/
+
+    </update>
+</mapper>
+

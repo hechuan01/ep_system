@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.system.dao.SysModuleDao">
+
+    <!--实体映射-->
+    <resultMap id="base_result_map" type="SysModule">
+        <id column="id" property="id"/>
+        <result column="mname" property="mname"/>
+        <result column="mcode" property="mcode"/>
+        <result column="mtype" property="mtype"/>
+        <result column="micon" property="micon"/>
+        <result column="murl" property="murl"/>
+        <result column="sortnum" property="sortnum"/>
+        <result column="createtime" property="createtime"/>
+        <result column="state" property="state"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="base_column_list">
+		 id,mname,mcode,mtype,micon,murl,sortnum,createtime,state,remark
+	</sql>
+
+    <sql id="base_condition_filed">
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="mname != null and mname!=''">
+            and mname = #{mname}
+        </if>
+        <if test="mcode != null and mcode!=''">
+            and mcode = #{mcode}
+        </if>
+        <if test="mtype != null">
+            and mtype = #{mtype}
+        </if>
+        <if test="micon != null and micon!=''">
+            and micon = #{micon}
+        </if>
+        <if test="murl != null and murl!=''">
+            and murl = #{murl}
+        </if>
+        <if test="sortnum != null">
+            and sortnum = #{sortnum}
+        </if>
+        <if test="createtime != null">
+            and createtime = #{createtime}
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        <if test="remark != null and remark!=''">
+            and remark = #{remark}
+        </if>
+    </sql>
+
+    <!-- 通用查询条件列-->
+    <sql id="query_condition">
+        <where>
+            <trim prefixOverrides="and">
+                <include refid="base_condition_filed"/>
+                <if test="mnameFuzzy!= null  and mnameFuzzy!=''">
+                    and mname like concat('%', #{mnameFuzzy}, '%')
+                </if>
+                <if test="mcodeFuzzy!= null  and mcodeFuzzy!=''">
+                    and mcode like concat('%', #{mcodeFuzzy}, '%')
+                </if>
+                <if test="miconFuzzy!= null  and miconFuzzy!=''">
+                    and micon like concat('%', #{miconFuzzy}, '%')
+                </if>
+                <if test="murlFuzzy!= null  and murlFuzzy!=''">
+                    and murl like concat('%', #{murlFuzzy}, '%')
+                </if>
+                <if test="createtimeStart!= null and createtimeStart!=''">
+                    <![CDATA[ and  createtime>=str_to_date('${createtimeStart}', '%Y-%m-%d') ]]>
+                </if>
+                <if test="createtimeEnd!= null and createtimeEnd!=''">
+                    <![CDATA[ and  createtime< date_sub(str_to_date('${createtimeEnd}','%Y-%m-%d'),interval -1 day) ]]>
+                </if>
+                <if test="remarkFuzzy!= null  and remarkFuzzy!=''">
+                    and remark like concat('%', #{remarkFuzzy}, '%')
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_modules WHERE state != -1  ORDER BY sortNum,createtime
+    </select>
+
+    <select id="selectByIds" resultMap="base_result_map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM sys_modules WHERE id in (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        ) and state!=-1 ORDER BY sortNum,createtime
+
+    </select>
+
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_modules
+        <include refid="query_condition"/>
+    </select>
+
+    <!-- 插入 （匹配有值的字段）-->
+    <insert id="insert" parameterType="SysModule">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO sys_modules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mname != null">
+                mname,
+            </if>
+            <if test="mcode != null">
+                mcode,
+            </if>
+            <if test="mtype != null">
+                mtype,
+            </if>
+            <if test="micon != null">
+                micon,
+            </if>
+            <if test="murl != null">
+                murl,
+            </if>
+            <if test="sortnum != null">
+                sortnum,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mname!=null">
+                #{mname},
+            </if>
+            <if test="mcode!=null">
+                #{mcode},
+            </if>
+            <if test="mtype!=null">
+                #{mtype},
+            </if>
+            <if test="micon!=null">
+                #{micon},
+            </if>
+            <if test="murl!=null">
+                #{murl},
+            </if>
+            <if test="sortnum!=null">
+                #{sortnum},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+            <if test="remark!=null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 插入或者更新 （匹配有值的字段）-->
+    <insert id="insertOrUpdate" parameterType="SysModule">
+        INSERT INTO sys_modules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mname != null">
+                mname,
+            </if>
+            <if test="mcode != null">
+                mcode,
+            </if>
+            <if test="mtype != null">
+                mtype,
+            </if>
+            <if test="micon != null">
+                micon,
+            </if>
+            <if test="murl != null">
+                murl,
+            </if>
+            <if test="sortnum != null">
+                sortnum,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="mname!=null">
+                #{mname},
+            </if>
+            <if test="mcode!=null">
+                #{mcode},
+            </if>
+            <if test="mtype!=null">
+                #{mtype},
+            </if>
+            <if test="micon!=null">
+                #{micon},
+            </if>
+            <if test="murl!=null">
+                #{murl},
+            </if>
+            <if test="sortnum!=null">
+                #{sortnum},
+            </if>
+            <if test="createtime!=null">
+                #{createtime},
+            </if>
+            <if test="state!=null">
+                #{state},
+            </if>
+            <if test="remark!=null">
+                #{remark},
+            </if>
+        </trim>
+        on DUPLICATE key
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="mname!=null">
+                mname = VALUES(mname),
+            </if>
+            <if test="mcode!=null">
+                mcode = VALUES(mcode),
+            </if>
+            <if test="mtype!=null">
+                mtype = VALUES(mtype),
+            </if>
+            <if test="micon!=null">
+                micon = VALUES(micon),
+            </if>
+            <if test="murl!=null">
+                murl = VALUES(murl),
+            </if>
+            <if test="sortnum!=null">
+                sortnum = VALUES(sortnum),
+            </if>
+            <if test="createtime!=null">
+                createtime = VALUES(createtime),
+            </if>
+            <if test="state!=null">
+                state = VALUES(state),
+            </if>
+            <if test="remark!=null">
+                remark = VALUES(remark),
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 添加 （批量插入）-->
+    <insert id="insertBatch" parameterType="SysModule">
+        INSERT INTO sys_modules(mname,mcode,mtype,micon,murl,sortnum,createtime,state,remark)values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.mname},#{item.mcode},#{item.mtype},#{item.micon},#{item.murl},#{item.sortnum},#{item.createtime},#{item.state},#{item.remark}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据Id修改-->
+    <update id="update" parameterType="SysModule">
+        UPDATE sys_modules
+        <set>
+            <if test="mname != null">
+                mname = #{mname},
+            </if>
+            <if test="mcode != null">
+                mcode = #{mcode},
+            </if>
+            <if test="mtype != null">
+                mtype = #{mtype},
+            </if>
+            <if test="micon != null">
+                micon = #{micon},
+            </if>
+            <if test="murl != null">
+                murl = #{murl},
+            </if>
+            <if test="sortnum != null">
+                sortnum = #{sortnum},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+		delete from sys_modules where id=#{id}
+	</delete>
+
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_modules where id=#{id} AND state !=-1
+    </select>
+    <select id="selectByCode" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_modules where mcode=#{code} AND state !=-1
+    </select>
+    <select id="getSubModules" resultMap="base_result_map">
+        select
+        <include refid="base_column_list"/>
+        from sys_modules where mcode LIKE concat(#{code}, '%')
+        AND LENGTH(mcode) = LENGTH(#{mcode})+3  AND state!=-1 ORDER BY sortNum,createtime;
+    </select>
+</mapper>

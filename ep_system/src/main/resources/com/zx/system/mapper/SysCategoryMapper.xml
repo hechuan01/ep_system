@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.system.dao.SysCategoryDao">
+
+	<!--实体映射-->
+	<resultMap id="base_result_map" type="SysCategory">
+		<id column="id" property="id"  />
+		<result column="ctcode" property="ctcode"  />
+		<result column="ctname" property="ctname"  />
+		<result column="ctnameother" property="ctnameother"  />
+		<result column="createrid" property="createrid"  />
+		<result column="cttype" property="cttype"  />
+		<result column="createtime" property="createtime"  />
+		<result column="state" property="state"  />
+		<result column="remark" property="remark"  />
+	</resultMap>
+
+
+	<!-- 通用查询结果列 -->
+	<sql id="base_column_list">
+		 id,ctcode,ctname,ctnameother,createrid,cttype,createtime,state,remark
+	</sql>
+
+	<sql id="base_condition_filed">
+			<if test="id != null">
+				 and  id = #{id}
+			</if>
+			<if test="ctcode != null and ctcode!=''">
+				 and  ctcode = #{ctcode}
+			</if>
+			<if test="ctname != null and ctname!=''">
+				 and  ctname = #{ctname}
+			</if>
+			<if test="ctnameother != null and ctnameother!=''">
+				 and  ctnameother = #{ctnameother}
+			</if>
+			<if test="createrid != null">
+				 and  createrid = #{createrid}
+			</if>
+			<if test="cttype != null">
+				 and  cttype = #{cttype}
+			</if>
+			<if test="createtime != null">
+				 and  createtime = #{createtime}
+			</if>
+			<if test="state != null">
+				 and  state = #{state}
+			</if>
+			<if test="remark != null and remark!=''">
+				 and  remark = #{remark}
+			</if>
+	</sql>
+
+	<!-- 通用查询条件列-->
+	<sql id="query_condition">
+	<where>
+		<trim prefixOverrides="and">
+			<include refid="base_condition_filed" />
+			<if test="ctcodeFuzzy!= null  and ctcodeFuzzy!=''">
+				 and  ctcode like concat('%', #{ctcodeFuzzy}, '%')
+			</if>
+			<if test="ctnameFuzzy!= null  and ctnameFuzzy!=''">
+				 and  ctname like concat('%', #{ctnameFuzzy}, '%')
+			</if>
+			<if test="ctnameotherFuzzy!= null  and ctnameotherFuzzy!=''">
+				 and  ctnameother like concat('%', #{ctnameotherFuzzy}, '%')
+			</if>
+			<if test="createtimeStart!= null and createtimeStart!=''">
+				 <![CDATA[ and  createtime>=str_to_date('${createtimeStart}', '%Y-%m-%d') ]]>
+			</if>
+			<if test="createtimeEnd!= null and createtimeEnd!=''">
+				 <![CDATA[ and  createtime< date_sub(str_to_date('${createtimeEnd}','%Y-%m-%d'),interval -1 day) ]]>
+			</if>
+			<if test="remarkFuzzy!= null  and remarkFuzzy!=''">
+				 and  remark like concat('%', #{remarkFuzzy}, '%')
+			</if>
+		</trim>
+	 </where>
+	</sql>
+
+	<!-- 查询集合-->
+	<select id="selectList" resultMap="base_result_map" >
+		 SELECT <include refid="base_column_list" /> FROM sys_categories <include refid="query_condition" />
+		 <if test="orderBy!=null">
+			 order by ${orderBy}
+		 </if>
+		 <if test="page!=null">
+			 limit #{page.start},#{page.end}
+		 </if>
+	</select>
+
+	<!-- 查询数量-->
+	<select id="selectCount" resultType="java.lang.Integer" >
+		 SELECT count(1) FROM sys_categories <include refid="query_condition" />
+	</select>
+
+	<!-- 插入 （匹配有值的字段）-->
+	<insert id="insert" parameterType="SysCategory">
+		<selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		 INSERT INTO sys_categories
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="ctcode != null">
+				 ctcode,
+			</if>
+			<if test="ctname != null">
+				 ctname,
+			</if>
+			<if test="ctnameother != null">
+				 ctnameother,
+			</if>
+			<if test="createrid != null">
+				 createrid,
+			</if>
+			<if test="cttype != null">
+				 cttype,
+			</if>
+			<if test="createtime != null">
+				 createtime,
+			</if>
+			<if test="state != null">
+				 state,
+			</if>
+			<if test="remark != null">
+				 remark,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="ctcode!=null">
+				 #{ctcode},
+			</if>
+			<if test="ctname!=null">
+				 #{ctname},
+			</if>
+			<if test="ctnameother!=null">
+				 #{ctnameother},
+			</if>
+			<if test="createrid!=null">
+				 #{createrid},
+			</if>
+			<if test="cttype!=null">
+				 #{cttype},
+			</if>
+			<if test="createtime!=null">
+				 #{createtime},
+			</if>
+			<if test="state!=null">
+				 #{state},
+			</if>
+			<if test="remark!=null">
+				 #{remark},
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 插入或者更新 （匹配有值的字段）-->
+	<insert id="insertOrUpdate" parameterType="SysCategory">
+		 INSERT INTO sys_categories
+		 <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				 id,
+			</if>
+			<if test="ctcode != null">
+				 ctcode,
+			</if>
+			<if test="ctname != null">
+				 ctname,
+			</if>
+			<if test="ctnameother != null">
+				 ctnameother,
+			</if>
+			<if test="createrid != null">
+				 createrid,
+			</if>
+			<if test="cttype != null">
+				 cttype,
+			</if>
+			<if test="createtime != null">
+				 createtime,
+			</if>
+			<if test="state != null">
+				 state,
+			</if>
+			<if test="remark != null">
+				 remark,
+			</if>
+		 </trim>
+		 <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				 #{id},
+			</if>
+			<if test="ctcode!=null">
+				 #{ctcode},
+			</if>
+			<if test="ctname!=null">
+				 #{ctname},
+			</if>
+			<if test="ctnameother!=null">
+				 #{ctnameother},
+			</if>
+			<if test="createrid!=null">
+				 #{createrid},
+			</if>
+			<if test="cttype!=null">
+				 #{cttype},
+			</if>
+			<if test="createtime!=null">
+				 #{createtime},
+			</if>
+			<if test="state!=null">
+				 #{state},
+			</if>
+			<if test="remark!=null">
+				 #{remark},
+			</if>
+		 </trim>
+		 on DUPLICATE key
+		 <trim prefix="" suffix="" suffixOverrides=",">
+			<if test="ctcode!=null">
+				 ctcode = VALUES(ctcode),
+			</if>
+			<if test="ctname!=null">
+				 ctname = VALUES(ctname),
+			</if>
+			<if test="ctnameother!=null">
+				 ctnameother = VALUES(ctnameother),
+			</if>
+			<if test="createrid!=null">
+				 createrid = VALUES(createrid),
+			</if>
+			<if test="cttype!=null">
+				 cttype = VALUES(cttype),
+			</if>
+			<if test="createtime!=null">
+				 createtime = VALUES(createtime),
+			</if>
+			<if test="state!=null">
+				 state = VALUES(state),
+			</if>
+			<if test="remark!=null">
+				 remark = VALUES(remark),
+			</if>
+		 </trim>
+	</insert>
+
+	<!-- 添加 （批量插入）-->
+		<insert id="insertBatch" parameterType="SysCategory">
+		 INSERT INTO sys_categories(ctcode,ctname,ctnameother,createrid,cttype,createtime,state,remark)values
+			 <foreach collection="list" item="item" separator=",">
+			 (
+			 #{item.ctcode},#{item.ctname},#{item.ctnameother},#{item.createrid},#{item.cttype},#{item.createtime},#{item.state},#{item.remark}
+			 )
+			 </foreach>
+		</insert>
+
+	<!-- 根据Id修改-->
+	<update id="update" parameterType="SysCategory">
+		 UPDATE sys_categories
+ 		 <set> 
+			<if test="ctcode != null">
+				 ctcode = #{ctcode},
+			</if>
+			<if test="ctname != null">
+				 ctname = #{ctname},
+			</if>
+			<if test="ctnameother != null">
+				 ctnameother = #{ctnameother},
+			</if>
+			<if test="createrid != null">
+				 createrid = #{createrid},
+			</if>
+			<if test="cttype != null">
+				 cttype = #{cttype},
+			</if>
+			<if test="createtime != null">
+				 createtime = #{createtime},
+			</if>
+			<if test="state != null">
+				 state = #{state},
+			</if>
+			<if test="remark != null">
+				 remark = #{remark},
+			</if>
+ 		 </set>
+ 		 where id=#{id}
+	</update>
+
+	<!-- 根据Id删除-->
+	<delete id="deleteById">
+		delete from sys_categories where id=#{id}
+	</delete>
+
+	<!-- 根据PrimaryKey获取对象-->
+	<select id="selectById" resultMap="base_result_map" >
+		select <include refid="base_column_list" /> from sys_categories where id=#{id}
+	</select>
+
+	<select id="selectByctcode" resultMap="base_result_map">
+		select <include refid="base_column_list" /> from sys_categories where ctcode like concat(#{ctcode}, '%')
+	</select>
+</mapper>

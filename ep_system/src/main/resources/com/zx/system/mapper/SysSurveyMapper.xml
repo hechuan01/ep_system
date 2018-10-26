@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.system.dao.SysSurveyDao">
+
+    <resultMap type="com.zx.system.model.SysSurvey" id="sysSurvey">
+        <id property  = "id" column= "id"/>
+        <id property  = "svnumber" column= "svnumber"/>
+        <result property  = "title" column= "title"/>
+        <result property  = "content" column= "content"/>
+        <result property  = "starttime" column= "starttime"/>
+        <result property  = "endtime" column= "endtime"/>
+        <result property  = "createrid" column= "createrid"/>
+        <result property  = "createtime" column= "createtime"/>
+        <result property  = "state" column= "state"/>
+        <association property="creatername" column="createrid" select="selectUserNameByUserId"/>
+        <!--  <collection property="sysAttachment" ofType="com.zx.system.model.SysAttachment" column="id"
+                      select="selectAttachmentByNotice"/>-->
+        <association property="sysAttachment" column="id" select="selectAttachmentBySurvey">
+        </association>
+        <association property="sysReceipt" column="id" select="selectReceiptBySurvey">
+        </association>
+    </resultMap>
+    <select id="selectUserNameByUserId" resultType="java.lang.String">
+        SELECT fullname FROM sys_users WHERE id  = #{id}
+    </select>
+    <select id="selectAttachmentBySurvey" resultType="com.zx.system.model.SysAttachment">
+        SELECT *  FROM sys_attachments WHERE targetid = #{id} AND attType=4 limit 1
+    </select>
+    <select id="selectReceiptBySurvey" resultType="com.zx.system.model.SysReceipt">
+        SELECT *  FROM sys_receipts WHERE targetid = #{id} AND rectype=2 limit 1
+    </select>
+
+
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zx.system.model.SysSurvey">
+        insert into sys_surveys(title,svnumber,content,starttime,endtime,createrid,createtime,state)
+        values(#{title},#{svnumber},#{content},#{starttime},#{endtime},#{createrid},#{createtime},#{state})
+    </insert>
+    <!-- 查询数量-->
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM sys_surveys
+        <where>
+            state != -1/*已删除不查询*/
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+            <if test="roleid != null">
+                AND id in (SELECT targetid FROM sys_receives where revtype=2 AND roleid=#{roleid})
+            </if>
+            <if test="title != null">
+                AND title LIKE concat('%', #{title}, '%')
+            </if>
+        </where>
+    </select>
+    <!-- 分页查询集合-->
+    <select id="selectList" resultMap="sysSurvey">
+        SELECT id,svnumber,title,content,starttime,endtime,createrid,createtime,state
+        FROM sys_surveys
+        <where>
+            state != -1/*已删除不查询*/
+            <if test="state != null">
+                AND state = #{state}
+            </if>
+            <if test="roleid != null">
+                AND id in (SELECT targetid FROM sys_receives where revtype=2 AND roleid=#{roleid})
+            </if>
+
+        </where>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+
+    <!-- 根据PrimaryKey获取对象-->
+    <select id="selectById" resultMap="sysSurvey">
+        select id,svnumber,title,content,starttime,endtime,createrid,createtime,state
+        from sys_surveys where id=#{id}
+    </select>
+
+    <update id="update" parameterType="com.zx.system.model.SysSurvey">
+        UPDATE  sys_surveys SET title =#{title},starttime=#{starttime},endtime=#{endtime},content=#{content},state=#{state} WHERE id=#{id}
+    </update>
+    <!-- 根据Id删除-->
+    <delete id="deleteById">
+        delete from sys_surveys where id=#{id}
+    </delete>
+    <!-- 软删除-->
+    <update id="safeDeleteById" parameterType="java.lang.Integer">
+        UPDATE  sys_surveys SET state =-1 WHERE id=#{id}
+    </update>
+    <select id="selectLast" resultMap="sysSurvey">
+        SELECT *  FROM sys_surveys  ORDER BY createtime DESC limit 1
+    </select>
+</mapper>
+

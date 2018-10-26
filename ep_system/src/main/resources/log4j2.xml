@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <!--<Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            &lt;!&ndash; 输出格式 &ndash;&gt;
+            <PatternLayout pattern="[%l] [%t] [%-4r] [%d{yyyy-MM-dd HH:mm:ss,SSS}] [%p] \: %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        &lt;!&ndash; 配置记录器级别 &ndash;&gt;
+        <Root level="debug">
+            &lt;!&ndash; 输出设置 &ndash;&gt;
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>-->
+    <Properties>
+        <Property name="LOG_HOME">/logs/project-name</Property>
+        <Property name="LOG_NAME">catalina.log</Property>
+    </Properties>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread][%file:%line] - %msg%n"/>
+        </Console>
+        <RollingFile name="log" fileName="${LOG_HOME}/${LOG_NAME}" filePattern="${LOG_HOME}/${LOG_NAME}.%d{yyyy-MM-dd}"
+                     append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss}   %-5level [%thread][%file:%line] - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="180"/>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <!-- 将业务dao接口填写进去,并用控制台输出即可 -->
+        <logger name="com.zx.system.dao" level="TRACE" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="com.zx.xt.dao" level="TRACE" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <root level="DEBUG">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="log"/>
+        </root>
+    </loggers>
+</Configuration>
