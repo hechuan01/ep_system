@@ -1,0 +1,95 @@
+.record-li{
+	font-size: 20px;
+	line-height: 22px;
+	position: relative;
+	top: -8px;
+	left: -5px;
+	padding: 2px 4px;
+	float: right;
+	font-weight: 600;
+}
+
+.login_btn2 {
+    background: #c7000a;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: "Î¢ÈíÑÅºÚ";
+}
+
+.box {
+    background: #fff;
+    border: solid 1px #d8dada;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    width: 421px;
+    height: 38px;
+    margin-bottom: 15px;
+    padding-left: 45px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.posi {
+    position: relative;
+}
+
+.posi label.error {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #ff4040;
+}
+
+.box:focus {
+    border: solid 1px #33858b;
+    outline-color: #1fbcca;
+}
+
+.box_name > i {
+    background: url(../images/login/login_icon1.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_name:hover > i {
+    background: url(../images/login/login_icon11.png) 10px center no-repeat;
+
+}
+
+.box_pwd > i {
+    background: url(../images/login/login_icon2.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_pwd:hover > i {
+    background: url(../images/login/login_icon21.png) 10px center no-repeat;
+}
+
+.box_code > i {
+    background: url(../images/login/login_icon3.png) 10px center no-repeat;
+    position: absolute;
+    top: 0;
+    height: 40px;
+    width: 40px;
+    z-index: 2;
+}
+
+.box_code:hover > i {
+    background: url(../images/login/login_icon31.png) 10px center no-repeat;
+}
