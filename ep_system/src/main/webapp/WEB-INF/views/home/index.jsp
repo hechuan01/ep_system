@@ -609,7 +609,7 @@
 
         }, 'json');
     }
-    getNotification();
+    //getNotification();
     /* setInterval(function () {
         getNotification();
     }, 60000); */
