@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.zx</groupId>
-  <artifactId>xt-system</artifactId>
+  <artifactId>ep_system</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
   <name>xt-system Maven Webapp</name>
@@ -208,7 +208,24 @@
       <version>${nutz.version}</version>
     </dependency>
 
-
+	<dependency>
+	    <groupId>commons-httpclient</groupId>
+	    <artifactId>commons-httpclient</artifactId>
+	    <version>3.1</version>
+	</dependency>
+	
+	<dependency>
+	  <groupId>org.apache.httpcomponents</groupId>
+	  <artifactId>httpclient</artifactId>
+	  <version>4.5.6</version>
+	</dependency>
+	
+	<dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpmime</artifactId>
+        <version>4.5.6</version>
+    </dependency>
+    
   </dependencies>
 
   <build>
