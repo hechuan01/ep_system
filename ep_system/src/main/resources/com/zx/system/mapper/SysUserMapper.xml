@@ -183,15 +183,13 @@
         </if>
     </select> -->
     <select id="selectList" resultMap="base_result_map">
-        SELECT * FROM
-        (select a.*,ROWNUM rn from(select * from sys_users order by id) a where <![CDATA[ROWNUM<=]]>10) where <![CDATA[rn>]]>0
-        <!-- <include refid="query_condition"/>
-        <if test="orderBy!=null">
-            order by ${orderBy}
-        </if>
-        <if test="start!=null and pageSize!=null">
-            limit #{start},#{pageSize}
-        </if> -->
+        SELECT <include refid="base_column_list"/> FROM
+        <!-- (select a.*,ROWNUM rn from(select * from sys_users order by id) a where <![CDATA[ROWNUM<=]]>#{end}) where <![CDATA[rn>]]>#{start} -->
+        (SELECT A.*, ROWNUM RN FROM (SELECT * FROM sys_users) A) 
+		<!-- WHERE RN BETWEEN #{start} AND #{end} -->
+		<!-- <include refid="query_condition"/> -->
+		where <![CDATA[ROWNUM<=]]>#{end} and <![CDATA[rn>]]>#{start}
+		
     </select>
    
 

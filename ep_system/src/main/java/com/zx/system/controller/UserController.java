@@ -98,13 +98,15 @@ public class UserController extends BaseController {
             pageIndex = 1;
         }
         int userCount = userService.selectCount();
+        System.out.println("==>"+userCount);
         Map paramMap = new HashMap<String, String>();
         paramMap.put("state", 0);
-        paramMap.put("pageSize", pageSize);
+        //paramMap.put("pageSize", pageSize);
         paramMap.put("start", (pageIndex - 1) * pageSize);
+        paramMap.put("end", pageIndex * pageSize);
         paramMap.put("orderBy", "createtime desc");
         paramMap.put("fullnameFuzzy", fullName);
-
+        
         List<SysUser> userList = userService.getList(paramMap);
         PagerModel result = new PagerModel(pageSize, pageIndex, userCount, userList);
         return result;
