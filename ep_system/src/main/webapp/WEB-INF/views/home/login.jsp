@@ -3,6 +3,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
+	<title>安徽省分行智慧停车系统</title>
     <link href="${ctx}/gsyh.ico" rel="shortcut icon" />
     <link href="${ctx}/scripts/plugins/alertifyjs/css/alertify.min.css" rel="stylesheet"/>
     <link href="${ctx}/css/login.css" type="text/css" rel="stylesheet"/>

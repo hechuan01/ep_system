@@ -24,6 +24,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
+	<title>主页面</title>
     <link href="${ctx}/gsyh.ico" rel="shortcut icon"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="${ctx}/assets/css/bootstrap.min.css" rel="stylesheet"/>
