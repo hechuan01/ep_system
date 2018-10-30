@@ -4,7 +4,7 @@ package com.zx.system.service.impl;
 import com.zx.common.enums.*;
 import com.zx.common.utils.FileReturn;
 import com.zx.common.utils.FileUtil;
-import com.zx.common.utils.TimeHelpUtil;
+import com.zx.common.utils.DateUtil;
 import com.zx.system.dao.*;
 import com.zx.system.model.*;
 import com.zx.system.service.SurveysService;
@@ -53,7 +53,7 @@ public class SurveysServiceImpl implements SurveysService {
         sysSurvey.setSvnumber(createSurveyNumber());
 
 
-        sysSurvey.setEndtime(TimeHelpUtil.dayEnd(sysSurvey.getEndtime()));
+        sysSurvey.setEndtime(DateUtil.dayEnd(sysSurvey.getEndtime()));
         if (sysSurvey.getStarttime() != null)
             sysSurvey.setState(NoticeOrSurveyState.公告中.getValue());
         else
@@ -159,7 +159,7 @@ public class SurveysServiceImpl implements SurveysService {
         Date date = new Date();//当前时间
         ///修改调研
         ///修改公告
-        sysSurvey.setEndtime(TimeHelpUtil.dayEnd(sysSurvey.getEndtime()));
+        sysSurvey.setEndtime(DateUtil.dayEnd(sysSurvey.getEndtime()));
         if (sysSurvey.getStarttime() != null)
             sysSurvey.setState(NoticeOrSurveyState.公告中.getValue());
         else

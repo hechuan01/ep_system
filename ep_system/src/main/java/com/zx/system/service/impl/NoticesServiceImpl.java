@@ -4,7 +4,7 @@ package com.zx.system.service.impl;
 import com.zx.common.enums.*;
 import com.zx.common.utils.FileReturn;
 import com.zx.common.utils.FileUtil;
-import com.zx.common.utils.TimeHelpUtil;
+import com.zx.common.utils.DateUtil;
 import com.zx.system.dao.*;
 import com.zx.system.model.*;
 import com.zx.system.service.NoticesService;
@@ -48,7 +48,7 @@ public class NoticesServiceImpl implements NoticesService {
         ///插入公告
         sys_notices.setCreaterid(loginInfo.getID());
         sys_notices.setCreatetime(date);
-        sys_notices.setEndtime(TimeHelpUtil.dayEnd(sys_notices.getEndtime()));
+        sys_notices.setEndtime(DateUtil.dayEnd(sys_notices.getEndtime()));
         if (sys_notices.getStarttime() != null)
             sys_notices.setState(NoticeOrSurveyState.公告中.getValue());
         else
@@ -150,7 +150,7 @@ public class NoticesServiceImpl implements NoticesService {
     public void update(SysNotice sys_notices, List<Integer> roleList, FileReturn fileReturn, String ROOT_PATE, UserLogin loginInfo) {
         Date date = new Date();//当前时间
         ///修改公告
-        sys_notices.setEndtime(TimeHelpUtil.dayEnd(sys_notices.getEndtime()));
+        sys_notices.setEndtime(DateUtil.dayEnd(sys_notices.getEndtime()));
         if (sys_notices.getStarttime() != null)
             sys_notices.setState(NoticeOrSurveyState.公告中.getValue());
         else
