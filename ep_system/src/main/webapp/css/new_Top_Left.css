@@ -7,9 +7,12 @@ body{font-family:"微软雅黑", "宋体"; background-color:#fff; font-size:14px
 .navbar .navbar-header{margin:0 90px 0 0!important;}
 @media screen and (min-width: 950px){
 .logo{background:url(../images/logo.png) no-repeat top left;  height:44px; line-height:40px; margin-top:6px; float:left; overflow:hidden;padding-left:45px;font-size:24px; color:#c4f5f7;}
+.gsyh{background:url(../images/gsyh_logo.png) no-repeat center left;  height:50px; line-height:40px; float:left; overflow:hidden;padding-left:45px;font-size:24px; color:#c4f5f7;}
 }
+
 @media screen and (max-width: 950px){
 .logo{background:url(../images/logo.png) no-repeat top left; width:1px; padding-left:49px; height:44px; margin-top:6px; float:left; overflow:hidden;}
+.gsyh{background:url(../images/gsyh_logo.png) no-repeat center left; width:1px; padding-left:49px; height:50px; float:left; overflow:hidden;}
 }
 .ace-nav .nav-user-photo{margin:0; border:0;border-radius:0;}
 .ace-nav li.light-blue a,.ace-nav li a,.ace-nav li.light-blue a:hover,.ace-nav li a:hover{background:none;}

@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <link href="${ctx}/favicon.ico" rel="shortcut icon"/>
+    <link href="${ctx}/gsyh.ico" rel="shortcut icon"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="${ctx}/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.min.css"/>
@@ -78,7 +78,7 @@
 
     <div class="navbar-container" id="navbar-container">
         <div class="navbar-header pull-left">
-            <div class="logo">作战任务协同及辅助决策系统
+            <div class="gsyh" style="padding-top: 5px;">安徽省分行智慧停车系统
             </div><!-- /.brand -->
         </div><!-- /.navbar-header -->
         <input type="hidden" id="ids" value="<%=ids%>">

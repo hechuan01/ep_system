@@ -3,7 +3,7 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <link href="${ctx}/favicon.ico" rel="shortcut icon" />
+    <link href="${ctx}/gsyh.ico" rel="shortcut icon" />
     <link href="${ctx}/scripts/plugins/alertifyjs/css/alertify.min.css" rel="stylesheet"/>
     <link href="${ctx}/css/login.css" type="text/css" rel="stylesheet"/>
     <script src="${ctx}/scripts/common/jquery-1.10.2.min.js"></script>
@@ -18,7 +18,7 @@
     <div class="container">
         <div class="content">
             <div class="content_in">
-                <div class="logo"><img src="../images/login/logo.png"/>作战任务协同及辅助决策系统<br><span>&nbsp;Combat task coordination and decision support system</span></div>
+                <div class="logo"><img src="../images/login/gsyh.png" style="width: 550px;"/></div>
                 <div class="posi box_name">
                     <i></i>
                     <input id="loginid" name="loginid" type="text" class="box" value="" placeholder="用户名"/>
