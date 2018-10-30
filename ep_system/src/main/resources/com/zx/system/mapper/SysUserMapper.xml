@@ -29,12 +29,13 @@
     </resultMap>
 
     <select id="selectRoleByUserId" resultType="SysRole">
-        SELECT
+        <!--mysql SELECT
         *
         FROM sys_roles WHERE id IN (
         SELECT roleid FROM sys_userroles
         WHERE userid = #{id}
-        ) limit 1
+        ) limit 1 -->
+        SELECT * FROM sys_roles WHERE id IN (SELECT roleid FROM sys_userroles WHERE userid = #{id})
     </select>
 
     <select id="selectUserRoleByUserId" resultType="SysUserRole">
@@ -169,7 +170,7 @@
     </sql>
 
     <!-- 查询集合-->
-    <select id="selectList" resultMap="base_result_map">
+    <!-- <select id="selectList" resultMap="base_result_map">
         SELECT
         <include refid="base_column_list"/>
         FROM sys_users
@@ -180,7 +181,19 @@
         <if test="start!=null and pageSize!=null">
             limit #{start},#{pageSize}
         </if>
+    </select> -->
+    <select id="selectList" resultMap="base_result_map">
+        SELECT * FROM
+        (select a.*,ROWNUM rn from(select * from sys_users order by id) a where <![CDATA[ROWNUM<=]]>10) where <![CDATA[rn>]]>0
+        <!-- <include refid="query_condition"/>
+        <if test="orderBy!=null">
+            order by ${orderBy}
+        </if>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if> -->
     </select>
+   
 
     <!-- 查询数量-->
     <select id="selectCount" resultType="java.lang.Integer">
@@ -543,7 +556,8 @@
     <select id="selectUserByLogin" resultMap="base_result_map">
         SELECT
         <include refid="base_column_list"/>
-        FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0 limit 1
+        <!--mysql  FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0 limit 1 -->
+        FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0
     </select>
     <insert id="insertUserRole">
         INSERT INTO sys_userroles (userid,roleid) VALUE (#{userId},#{roleId})
