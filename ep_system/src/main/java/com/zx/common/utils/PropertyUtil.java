@@ -22,7 +22,7 @@ public class PropertyUtil {
             in = PropertyUtil.class.getResourceAsStream("/icbc.properties");
             props.load(in);
         } catch (FileNotFoundException e) {
-            logger.error("jdbc.properties文件未找到");
+            logger.error("properties文件未找到");
         } catch (IOException e) {
             logger.error("出现IOException");
         } finally {
@@ -31,7 +31,7 @@ public class PropertyUtil {
                     in.close();
                 }
             } catch (IOException e) {
-                logger.error("jdbc.properties文件流关闭出现异常");
+                logger.error("properties文件流关闭出现异常");
             }
         }
     }

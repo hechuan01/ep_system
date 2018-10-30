@@ -2,6 +2,7 @@ package com.zx.common.icbc;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,11 +21,9 @@ import com.zx.xt.model.eicbc.User;
  */
 public class EICBCUtil {
 
-	private static HttpClientUtils httpClientUtils = null;
 	
 	public EICBCUtil() {
 		super();
-		httpClientUtils = new HttpClientUtils();
 	}
 
 	/**
@@ -32,8 +31,7 @@ public class EICBCUtil {
 	 * @param code 
 	 * @return
 	 */
-	@SuppressWarnings("static-access")
-	public synchronized AccessToken getAccessToken(String code){
+	public AccessToken getAccessToken(String code){
 		String appid = PropertyUtil.getProperty("appid");
 		String url = PropertyUtil.getProperty("accessToken");
 		
@@ -44,7 +42,7 @@ public class EICBCUtil {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		String result = httpClientUtils.doGet(url, map);
+		String result = HttpClientUtils.doGet(url, map);
 		AccessToken token = Json.fromJson(AccessToken.class, result);
 		return token;
 	}
@@ -54,7 +52,6 @@ public class EICBCUtil {
 	 * @param token
 	 * @return
 	 */
-	@SuppressWarnings("static-access")
 	public User getUser(AccessToken token){
 		String url = PropertyUtil.getProperty("userInfo");
 		
@@ -65,8 +62,10 @@ public class EICBCUtil {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		String result = httpClientUtils.doGet(url, map);
+		String result = HttpClientUtils.doGet(url, map);
 		User user = Json.fromJson(User.class, result);
+		String nickname = new String(user.getNickname().getBytes(), Charset.forName("utf-8"));//处理融e联接口返回的中文乱码
+		user.setNickname(nickname);
 		return user;
 	}
 	
@@ -76,7 +75,6 @@ public class EICBCUtil {
 	 * @param user
 	 * @return
 	 */
-	@SuppressWarnings("static-access")
 	public CardList getCardList(AccessToken token, User user){
 		String url = PropertyUtil.getProperty("cardList");
 		
@@ -94,7 +92,7 @@ public class EICBCUtil {
 			map.put("UserType", "1");
 			map.put("MobileNo", user.getCisno());
 		}
-		String result = httpClientUtils.doPost(url, map);
+		String result = HttpClientUtils.doPost(url, map);
 		CardList cardList = Json.fromJson(CardList.class, result);
 		return cardList;
 	}
