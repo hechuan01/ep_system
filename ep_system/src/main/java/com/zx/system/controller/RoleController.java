@@ -138,7 +138,7 @@ public class RoleController extends BaseController {
     @ResponseBody
     public Object getList(Integer pageSize, Integer pageIndex,String roleName) throws JsonProcessingException {
         if (pageSize == null) {
-            pageSize = 5;
+            pageSize = 15;
         }
 
         if (pageIndex == null) {
