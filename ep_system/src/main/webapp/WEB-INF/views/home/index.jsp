@@ -97,8 +97,8 @@
             <ul class="nav ace-nav nav-pull-right-position">
                 <li class="light-blue dropdown txta">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false"><span class="hi">Hi,</span>&nbsp;${sessionScope.userLogin.fullName} <span
-                            class="role">【${sessionScope.userLogin.role.rolename}】</span><span
+                       aria-expanded="false"><span class="hi">Hi,</span>&nbsp;${sessionScope.userLogin.fullName} 
+                       <%-- <span class="role">【${sessionScope.userLogin.role.rolename}】</span> --%><span
                             class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-mymenu">
                         <li><a class="clickable" onclick="ContentTabs.showUserDetail()">个人资料</a></li>
@@ -108,7 +108,7 @@
             </ul>
 
             <div class="assets">
-                <div class="assets_content dropdown" id="notificationCount">
+                <%-- <div class="assets_content dropdown" id="notificationCount">
                     <a id="dropdownMenu" href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="${ctx}/images/xt_icon2.png">
                         <span class="badge" id="allCount" style="display: none"></span>
@@ -133,7 +133,7 @@
                         <li class="text-center padding-v-10">
                             <a onclick="ContentTabs.showNotification()">更多消息</a></li>
                     </ul>
-                </div>
+                </div> --%>
                 <%--<div class="assets_content"><a href="#"><img src="${ctx}/images/xt_icon3.png">待办</a></div>--%>
                 <%--<div class="assets_content"><a href="#"><img src="${ctx}/images/xt_icon4.png">设置</a></div>--%>
                 <div class="assets_content"><a href="#" onclick="ContentTabs.logout()"><img
