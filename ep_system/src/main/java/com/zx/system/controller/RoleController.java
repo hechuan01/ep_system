@@ -138,7 +138,7 @@ public class RoleController extends BaseController {
     @ResponseBody
     public Object getList(Integer pageSize, Integer pageIndex,String roleName) throws JsonProcessingException {
         if (pageSize == null) {
-            pageSize = 15;
+            pageSize = 5;
         }
 
         if (pageIndex == null) {
@@ -148,8 +148,9 @@ public class RoleController extends BaseController {
         int userCount = roleService.selectCount();
         Map paramMap = new HashMap<String, String>();
         paramMap.put("state", 0);
-        paramMap.put("pageSize", pageSize);
+        //paramMap.put("pageSize", pageSize);
         paramMap.put("start", (pageIndex - 1) * pageSize);
+        paramMap.put("end", pageIndex * pageSize);
         paramMap.put("orderBy", "createtime desc");
         paramMap.put("rolenameFuzzy", roleName);
 

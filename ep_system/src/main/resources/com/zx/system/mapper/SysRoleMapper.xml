@@ -73,8 +73,8 @@
         </where>
     </sql>
 
-    <!-- 查询集合-->
-    <select id="selectList" resultMap="base_result_map">
+    <!-- mysql查询集合-->
+    <!-- <select id="selectList" resultMap="base_result_map">
         SELECT
         <include refid="base_column_list"/>
         FROM sys_roles
@@ -85,6 +85,22 @@
         <if test="start!=null and pageSize!=null">
             limit #{start},#{pageSize}
         </if>
+    </select> -->
+    <!-- oracle查询集合-->
+    <select id="selectList" resultMap="base_result_map">
+        select <include refid="base_column_list"/> 
+		from (select t.*, rownum rn	
+	        from (select *
+	                from sys_roles where 1=1
+	               	<if test="state != null">
+	               		and state = #{state}
+	               	</if>
+			        <if test="rolenameFuzzy!= null  and rolenameFuzzy!=''">
+			            and rolename like '%' || #{rolenameFuzzy} || '%'
+			        </if>
+	        order by id asc) t	
+			where <![CDATA[rownum <=]]> #{end})		
+		where <![CDATA[rn > ]]> #{start}
     </select>
 
     <!-- 查询数量-->
