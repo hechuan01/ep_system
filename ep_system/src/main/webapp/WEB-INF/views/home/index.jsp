@@ -13,7 +13,7 @@
 <%
     ids = "";
     UserLogin loginInfo=(UserLogin)session.getAttribute("userLogin");
-    visibleModules = new ArrayList<Integer>();
+    visibleModules = new ArrayList<String>();
     List<SysModule> list = loginInfo.getModules();
     for (SysModule item : list) {
         visibleModules.add(item.getId());
