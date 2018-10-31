@@ -65,7 +65,7 @@ public interface SysUserDao {
      * @param id
      * @return
      */
-    SysUser selectById(int id);
+    SysUser selectById(String id);
 
     /**
      * 查询分页数据

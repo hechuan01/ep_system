@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
             allEntries = true
     )
     @Override
-    public SysUser selectById(int id) {
+    public SysUser selectById(String id) {
         return sysUserDao.selectById(id);
     }
 
@@ -101,12 +101,12 @@ public class UserServiceImpl implements UserService {
             }
             sysUserDao.update(user);
         } else {
-        	String uuid1 = UUIDUtil.getUUID();
-        	user.setId(uuid1);
+        	String uuid = UUIDUtil.getUUID();
+        	user.setId(uuid);
             sysUserDao.insert(user);
-            String uuid2 = UUIDUtil.getUUID();
+            String userRoleId = UUIDUtil.getUUID();
             //插入用户角色关联表
-            sysUserDao.insertUserRole(uuid2, user.getId(), user.getSysRole().getId());
+            sysUserDao.insertUserRole(userRoleId, user.getId(), user.getSysRole().getId());
         }
 
         return user;

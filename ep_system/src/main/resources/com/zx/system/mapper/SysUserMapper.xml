@@ -578,7 +578,7 @@
         FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0
     </select>
     <insert id="insertUserRole">
-        INSERT INTO sys_userroles (id,userid,roleid) VALUE (#{id},#{userId},#{roleId})
+        INSERT INTO sys_userroles (id,userid,roleid) values (#{id},#{userId},#{roleId})
     </insert>
 
     <!-- 根据多个角色分组查人人员-->

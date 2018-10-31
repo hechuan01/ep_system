@@ -33,7 +33,7 @@ public interface UserService {
      * @param id
      * @return
      */
-    SysUser selectById(int id);
+    SysUser selectById(String id);
 
     /**
      * 查询总数

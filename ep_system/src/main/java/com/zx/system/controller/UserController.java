@@ -45,10 +45,10 @@ public class UserController extends BaseController {
     private DepartmentService departmentService;
 
     @RequestMapping(value = "/edit")
-    public String edit(Model model, Integer id) {
+    public String edit(Model model, String id) {
         SysUser user = new SysUser();
         if (id != null) {
-            user = userService.selectById(id.intValue());
+            user = userService.selectById(id);
             model.addAttribute("isNew", false);
         } else {
             model.addAttribute("isNew", true);
@@ -112,11 +112,11 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(Integer id) {
+    public Object delete(String id) {
         ReturnModel msg = new ReturnModel();
         if (id != null) {
             try {
-                SysUser user = userService.selectById(id.intValue());
+                SysUser user = userService.selectById(id);
                 user.setState(-1);
                 userService.update(user);
                 msg.setState(true);
@@ -146,7 +146,7 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/changePassword")
-    public Object changePassword(Integer id, String oldPwd, String newPwd) {
+    public Object changePassword(String id, String oldPwd, String newPwd) {
         SysUser sysUser = userService.selectById(id);
         ReturnModel msg = new ReturnModel();
         try {
