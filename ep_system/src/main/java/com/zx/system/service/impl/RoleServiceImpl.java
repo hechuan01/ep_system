@@ -1,11 +1,13 @@
 package com.zx.system.service.impl;
 
+import com.zx.common.utils.UUIDUtil;
 import com.zx.system.dao.SysRoleDao;
 import com.zx.system.dao.SysRolemoduleDao;
 import com.zx.system.model.SysRole;
 import com.zx.system.model.SysRolemodule;
 import com.zx.system.service.RoleService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
     private SysRolemoduleDao sysRolemoduleDao;
 
     @Override
-    public SysRole selectById(int id) {
+    public SysRole selectById(String id) {
         return sysRoleDao.selectById(id);
     }
 
@@ -49,9 +51,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public SysRole update(SysRole role) {
-        if (role.getId() != null) {
+        if (StringUtils.isNotEmpty(role.getId())) {
             sysRoleDao.update(role);
         } else {
+        	String uuid = UUIDUtil.getUUID();
+        	role.setId(uuid);
             sysRoleDao.insert(role);
         }
         return role;

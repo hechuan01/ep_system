@@ -13,7 +13,7 @@ public class TreeJsonEntity {
     /**
      * 节点Id
      */
-    public Integer id;
+    public String id;
     /**
      * 节点编码
      */

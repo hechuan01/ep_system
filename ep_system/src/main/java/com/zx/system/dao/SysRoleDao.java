@@ -47,7 +47,7 @@ public interface SysRoleDao {
      * @param id 对象主键
      * @return
      */
-    SysRole selectById(Integer id);
+    SysRole selectById(String id);
 
     /**
      * 查询符合条件的数据量

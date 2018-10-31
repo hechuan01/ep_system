@@ -89,7 +89,7 @@ public interface SysUserDao {
      * @param id
      * @return
      */
-    List<SysRole> selectRoleByUserId(Integer id);
+    List<SysRole> selectRoleByUserId(String id);
 
     /**
      * 根据userid查询用户角色关联表数据

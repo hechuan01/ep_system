@@ -9,7 +9,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class SysRole implements Serializable {
 
-    private Integer id;
+    private String id;
     private String rolename;
     private Integer roletype;
     private String roleTypeName;
@@ -19,11 +19,11 @@ public class SysRole implements Serializable {
     private String remark;
     private List<SysModule> modules;
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return this.id;
     }
 

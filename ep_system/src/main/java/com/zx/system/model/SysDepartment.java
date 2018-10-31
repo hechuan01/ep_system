@@ -6,7 +6,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class SysDepartment implements Serializable {
 
-	private Integer id;
+	private String id;
 	private String deptname;
 	private String deptcode;
 	private Integer createrid;
@@ -15,11 +15,11 @@ public class SysDepartment implements Serializable {
 	private String remark;
 
 	private String parentDept;
-	public void setId(Integer id){
+	public void setId(String id){
 		this.id = id;
 	}
 
-	public Integer getId(){
+	public String getId(){
 		return this.id;
 	}
 

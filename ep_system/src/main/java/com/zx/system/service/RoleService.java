@@ -20,7 +20,7 @@ public interface RoleService {
      * @param id
      * @return
      */
-    SysRole selectById(int id);
+    SysRole selectById(String id);
 
     /**
      * 查询SysRole总数

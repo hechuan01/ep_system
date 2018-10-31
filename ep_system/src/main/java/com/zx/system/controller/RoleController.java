@@ -77,11 +77,11 @@ public class RoleController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/edit.html")
-    public String edit(Model model, Integer id) {
+    public String edit(Model model, String id) {
         SysRole role = new SysRole();
 
-        if (id != null) {
-            role = roleService.selectById(id.intValue());
+        if (StringUtils.isNotEmpty(id)) {
+            role = roleService.selectById(id);
         }
 
         model.addAttribute("sysRole", role);
@@ -111,7 +111,7 @@ public class RoleController extends BaseController {
      */
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public Object submit(SysRole role, Model model, Integer id) throws JsonProcessingException {
+    public Object submit(SysRole role, Model model, String id) throws JsonProcessingException {
         ReturnModel rm = new ReturnModel();
         try {
             role = roleService.update(role);
