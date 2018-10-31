@@ -182,14 +182,27 @@
             limit #{start},#{pageSize}
         </if>
     </select> -->
+    
     <select id="selectList" resultMap="base_result_map">
-        SELECT <include refid="base_column_list"/> FROM
-        <!-- (select a.*,ROWNUM rn from(select * from sys_users order by id) a where <![CDATA[ROWNUM<=]]>#{end}) where <![CDATA[rn>]]>#{start} -->
-        (SELECT A.*, ROWNUM RN FROM (SELECT * FROM sys_users) A) 
-		<!-- WHERE RN BETWEEN #{start} AND #{end} -->
-		<!-- <include refid="query_condition"/> -->
-		where <![CDATA[ROWNUM<=]]>#{end} and <![CDATA[rn>]]>#{start}
-		
+		select <include refid="base_column_list"/> 
+		from (select t.*, rownum rn	
+	        from (select *		
+	                from sys_users where 1=1
+	               	<if test="state != null">
+	               		and state = #{state}
+	               	</if>
+	               	<if test="loginidFuzzy!= null  and loginidFuzzy!=''">
+	                    and loginid like '%' || #{loginidFuzzy} || '%'
+	                </if>
+			        <if test="fullnameFuzzy!= null  and fullnameFuzzy!=''">
+			            and fullname like '%' || #{fullnameFuzzy} || '%'
+			        </if>
+			<!-- <if test="orderBy!=null">
+	            order by #{orderBy}
+	        </if>) t -->	
+	        order by id asc) t	
+			where <![CDATA[rownum <=]]> #{end})		
+		where <![CDATA[rn > ]]> #{start}
     </select>
    
 
