@@ -65,7 +65,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     @ResponseBody
-    public Object submit(SysUser sysUser, Model model, Integer id) throws JsonProcessingException {
+    public Object submit(SysUser sysUser, Model model, String id) throws JsonProcessingException {
         ReturnModel rm = new ReturnModel();
         try {
             if (sysUser != null && sysUser.getPsd() != null && sysUser.getPsd().trim() != "")
