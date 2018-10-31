@@ -89,6 +89,8 @@ public interface SysRoleDao {
 
 
     void updateRoleModules(List<SysRolemodule> rmList);
+    
+    List<SysRole> getList(Map map);
 }
 
 

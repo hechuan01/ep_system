@@ -42,8 +42,9 @@ public interface RoleService {
      *
      * @return
      */
+    List<SysRole> selectList(Map map);
+    
     List<SysRole> getList(Map map);
-
 
     int updateRoleModules(Integer roleId ,List<SysRolemodule> rmList);
 }

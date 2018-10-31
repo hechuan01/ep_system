@@ -58,9 +58,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<SysRole> getList(Map map) {
+    public List<SysRole> selectList(Map map) {
 
         return sysRoleDao.selectList(map);
+    }
+    
+    @Override
+    public List<SysRole> getList(Map map) {
+
+        return sysRoleDao.getList(map);
     }
 
     @Override

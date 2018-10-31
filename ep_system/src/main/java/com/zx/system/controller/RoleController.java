@@ -154,7 +154,7 @@ public class RoleController extends BaseController {
         paramMap.put("orderBy", "createtime desc");
         paramMap.put("rolenameFuzzy", roleName);
 
-        List<SysRole> userList = roleService.getList(paramMap);
+        List<SysRole> userList = roleService.selectList(paramMap);
         PagerModel result = new PagerModel(pageSize, pageIndex, userCount, userList);
 
         return result;
