@@ -79,7 +79,7 @@ public interface SysRoleDao {
      * @param id
      * @return
      */
-    List<SysRole> selectRoleByUserId(Integer id);
+    List<SysRole> selectRoleByUserId(String id);
 
     /**
      * 查询角色

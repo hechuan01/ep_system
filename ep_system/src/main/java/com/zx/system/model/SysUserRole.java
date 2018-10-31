@@ -13,11 +13,11 @@ public class SysUserRole implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getRoleid() {
+	public String getRoleid() {
 		return roleid;
 	}
 
-	public void setRoleid(Integer roleid) {
+	public void setRoleid(String roleid) {
 		this.roleid = roleid;
 	}
 
@@ -38,7 +38,7 @@ public class SysUserRole implements Serializable {
 	}
 
 	private String id;
-	private Integer roleid;
+	private String roleid;
 	private String userid;
 	private Date createtime;
 

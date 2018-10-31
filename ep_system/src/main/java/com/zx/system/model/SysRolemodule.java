@@ -5,23 +5,23 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class SysRolemodule implements Serializable {
 
-	private Integer id;
-	private Integer roleid;
+	private String id;
+	private String roleid;
 	private String mcode;
 
-	public void setId(Integer id){
+	public void setId(String id){
 		this.id = id;
 	}
 
-	public Integer getId(){
+	public String getId(){
 		return this.id;
 	}
 
-	public void setRoleid(Integer roleid){
+	public void setRoleid(String roleid){
 		this.roleid = roleid;
 	}
 
-	public Integer getRoleid(){
+	public String getRoleid(){
 		return this.roleid;
 	}
 
