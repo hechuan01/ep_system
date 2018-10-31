@@ -559,7 +559,6 @@
                 }
             },
             removePage: function (name, activeName) {
-                debugger
                 if (name != "" && $.trim(name) != "") {
                     name = $.trim(name);
                     var delPage = $('#contentBreads ul li a[name="' + name + '"]');

@@ -58,7 +58,6 @@
         self.items = ko.observableArray([]);
         //self.selectedItem = ko.observable({ text: '' });
         self.toggleChildren = function (item) {
-            debugger
             var subEle = $('#children_' + item.code);
             var nodeEle = $('#node_' + item.code);
             var expand = subEle.is(':visible');
