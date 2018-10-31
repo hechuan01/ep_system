@@ -89,7 +89,7 @@
     <!-- oracle查询集合-->
     <select id="selectList" resultMap="base_result_map">
         select <include refid="base_column_list"/> 
-		from (select t.*, rownum rn	
+		from (select t.*, rownum rn
 	        from (select *
 	                from sys_roles where 1=1
 	               	<if test="state != null">
