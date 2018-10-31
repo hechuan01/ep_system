@@ -1,6 +1,7 @@
 package com.zx.system.service.impl;
 
 import com.zx.common.enums.RoleType;
+import com.zx.common.utils.UUIDUtil;
 import com.zx.system.dao.SysRoleDao;
 import com.zx.system.dao.SysUserDao;
 import com.zx.system.model.SysRole;
@@ -8,11 +9,14 @@ import com.zx.system.model.SysUser;
 import com.zx.system.model.SysUserRole;
 import com.zx.system.model.UserLogin;
 import com.zx.system.service.UserService;
+
+import org.apache.logging.log4j.core.util.UuidUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +87,7 @@ public class UserServiceImpl implements UserService {
     )
     @Override
     public SysUser update(SysUser user) {
-        if (user.getId() != null) {
+        if (user.getId() != null && !"".equals(user.getId())) {
             //修改sys_userroles
             SysUserRole ur = sysUserDao.selectUserRoleByUserId(user.getId());
             if (ur != null) {
@@ -92,13 +96,17 @@ public class UserServiceImpl implements UserService {
                     sysUserDao.updateUserRole(ur);
                 }
             } else {
-                sysUserDao.insertUserRole(user.getId(), user.getSysRole().getId());
+            	String uuid = UUIDUtil.getUUID();
+                sysUserDao.insertUserRole(uuid, user.getId(), user.getSysRole().getId());
             }
             sysUserDao.update(user);
         } else {
+        	String uuid1 = UUIDUtil.getUUID();
+        	user.setId(uuid1);
             sysUserDao.insert(user);
+            String uuid2 = UUIDUtil.getUUID();
             //插入用户角色关联表
-            sysUserDao.insertUserRole(user.getId(), user.getSysRole().getId());
+            sysUserDao.insertUserRole(uuid2, user.getId(), user.getSysRole().getId());
         }
 
         return user;

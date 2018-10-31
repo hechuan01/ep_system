@@ -7,7 +7,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class SysUser implements Serializable {
 
-    private Integer id;
+    private String id;
     private String loginid;
     private String fullname;
     private String psd;
@@ -30,11 +30,11 @@ public class SysUser implements Serializable {
     private List<SysModule> modules;
 
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return this.id;
     }
 

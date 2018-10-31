@@ -6,7 +6,8 @@
 
     <!--实体映射-->
     <resultMap id="base_result_map" type="SysUser">
-        <id column="id" property="id"/>
+        <!-- <id column="id" property="id"/> -->
+        <result column="id" property="id"/>
         <result column="loginid" property="loginid"/>
         <result column="fullname" property="fullname"/>
         <result column="psd" property="psd"/>
@@ -213,12 +214,15 @@
     </select>
 
     <!-- 插入 （匹配有值的字段）-->
-    <insert id="insert" parameterType="SysUser" useGeneratedKeys="true" keyProperty="id">
-        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+    <insert id="insert" parameterType="SysUser">
+        <!-- <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
-        </selectKey>
+        </selectKey> -->
         INSERT INTO sys_users
         <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+                id,
+            </if>
             <if test="loginid != null">
                 loginid,
             </if>
@@ -269,6 +273,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id!=null">
+                #{id},
+            </if>
             <if test="loginid!=null">
                 #{loginid},
             </if>
@@ -571,7 +578,7 @@
         FROM sys_users where loginid =#{loginid} and psd=#{password} AND state = 0
     </select>
     <insert id="insertUserRole">
-        INSERT INTO sys_userroles (userid,roleid) VALUE (#{userId},#{roleId})
+        INSERT INTO sys_userroles (id,userid,roleid) VALUE (#{id},#{userId},#{roleId})
     </insert>
 
     <!-- 根据多个角色分组查人人员-->

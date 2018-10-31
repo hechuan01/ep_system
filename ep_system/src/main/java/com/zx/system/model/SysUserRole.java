@@ -5,11 +5,11 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class SysUserRole implements Serializable {
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -21,11 +21,11 @@ public class SysUserRole implements Serializable {
 		this.roleid = roleid;
 	}
 
-	public Integer getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(Integer userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 
@@ -37,9 +37,9 @@ public class SysUserRole implements Serializable {
 		this.createtime = createtime;
 	}
 
-	private Integer id;
+	private String id;
 	private Integer roleid;
-	private Integer userid;
+	private String userid;
 	private Date createtime;
 
 }

@@ -18,7 +18,7 @@ public class UserLogin {
         this.loginToken = UUID.randomUUID().toString();
     }
 
-    public UserLogin(Integer id, String loginId, String fullName) {
+    public UserLogin(String id, String loginId, String fullName) {
         this.lastTime = new Date();
         this.loginToken = UUID.randomUUID().toString();
         this.id = id;
@@ -34,11 +34,11 @@ public class UserLogin {
         this.loginToken = loginToken;
     }
 
-    public Integer getID() {
+    public String getID() {
         return id;
     }
 
-    public void setID(Integer id) {
+    public void setID(String id) {
         this.id = id;
     }
 
@@ -137,7 +137,7 @@ public class UserLogin {
     /**
      * 登录用户主键
      */
-    private Integer id;
+    private String id;
     /**
      * 登录用户名
      */
