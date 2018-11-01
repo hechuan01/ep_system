@@ -91,11 +91,14 @@
 
     <!-- 插入 （匹配有值的字段）-->
     <insert id="insert" parameterType="SysDepartment">
-        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+        <!-- <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
-        </selectKey>
+        </selectKey> -->
         INSERT INTO sys_departments
         <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+                id,
+            </if>
             <if test="deptname != null">
                 deptname,
             </if>
@@ -116,6 +119,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id!=null">
+                #{id},
+            </if>
             <if test="deptname!=null">
                 #{deptname},
             </if>

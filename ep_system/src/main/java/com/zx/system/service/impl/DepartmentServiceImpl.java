@@ -1,12 +1,15 @@
 package com.zx.system.service.impl;
 
+import com.zx.common.utils.UUIDUtil;
 import com.zx.system.dao.SysDepartmentDao;
 import com.zx.system.model.SysDepartment;
 import com.zx.system.service.DepartmentService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,15 +40,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public int update(SysDepartment sysDepartment) {
-        if (sysDepartment.getId() != null) {
+        if (sysDepartment.getId() != null && !"".equals(sysDepartment.getId())) {
             return sysDepartmentDao.update(sysDepartment);
         } else {
+        	sysDepartment.setId(UUIDUtil.getUUID());
             return sysDepartmentDao.insert(sysDepartment);
         }
     }
 
     @Override
-    public SysDepartment selectById(Integer id) {
+    public SysDepartment selectById(String id) {
         return sysDepartmentDao.selectById(id);
     }
 

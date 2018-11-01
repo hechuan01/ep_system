@@ -5,6 +5,7 @@ import com.zx.common.utils.ReturnModel;
 import com.zx.common.utils.TreeJsonEntity;
 import com.zx.system.model.SysDepartment;
 import com.zx.system.service.DepartmentService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +44,7 @@ public class DepartmentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "edit", method = RequestMethod.GET)
-    public String edit(Integer id, String parentCode, Model model) {
+    public String edit(String id, String parentCode, Model model) {
         SysDepartment sysDepartment = new SysDepartment();
         if (id != null) {
             sysDepartment = departmentService.selectById(id);
@@ -60,7 +62,7 @@ public class DepartmentController extends BaseController {
         ReturnModel rm = new ReturnModel();
         try {
 
-            if (sysDepartment.getId() == null) {
+            if (sysDepartment.getId() == null || "".equals(sysDepartment.getId())) {
                 Map.Entry entry = generateDeptSubCode(parentCode);
                 if (entry != null && (boolean) entry.getKey()) {
                     sysDepartment.setDeptcode(entry.getValue().toString());
@@ -91,11 +93,11 @@ public class DepartmentController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(Integer id) {
+    public Object delete(String id) {
         ReturnModel msg = new ReturnModel();
         if (id != null) {
             try {
-                SysDepartment sysDepartment = departmentService.selectById(id.intValue());
+                SysDepartment sysDepartment = departmentService.selectById(id);
                 sysDepartment.setState(-1);
                 departmentService.update(sysDepartment);
                 msg.setState(true);

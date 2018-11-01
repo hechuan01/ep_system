@@ -37,7 +37,7 @@ public interface SysDepartmentDao {
 	/**
 	 * 根据Id获取对象
 	 */
-	SysDepartment selectById(Integer id);
+	SysDepartment selectById(String id);
 	/**
 	 * 根据code获取对象
 	 */

@@ -15,7 +15,7 @@ public interface DepartmentService {
 
     int update(SysDepartment sysDepartment);
 
-    SysDepartment selectById(Integer id);
+    SysDepartment selectById(String id);
 
     SysDepartment selectByCode(String code);
 }
