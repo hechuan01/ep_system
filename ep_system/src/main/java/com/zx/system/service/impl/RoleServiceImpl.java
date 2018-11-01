@@ -74,9 +74,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public int updateRoleModules(Integer roleId, List<SysRolemodule> rmList) {
+    public int updateRoleModules(String roleId, List<SysRolemodule> rmList) {
         sysRolemoduleDao.deleteByRoleId(roleId);
-        return sysRolemoduleDao.insertBatch(rmList);
+        for (SysRolemodule sysRolemodule : rmList) {
+        	String uuid = UUIDUtil.getUUID();
+        	sysRolemoduleDao.insert(uuid, sysRolemodule.getRoleid(), sysRolemodule.getMcode());
+		}
+        return 1;
+//        return sysRolemoduleDao.insertBatch(rmList);
     }
 
 }

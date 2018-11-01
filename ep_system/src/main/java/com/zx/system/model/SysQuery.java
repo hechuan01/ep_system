@@ -15,7 +15,7 @@ public class SysQuery implements Serializable {
 
     private String keywords;
 
-    private Integer createid;
+    private String createid;
 
     private Date createtime;
 
@@ -47,11 +47,11 @@ public class SysQuery implements Serializable {
         this.keywords = keywords == null ? null : keywords.trim();
     }
 
-    public Integer getCreateid() {
+    public String getCreateid() {
         return createid;
     }
 
-    public void setCreateid(Integer createid) {
+    public void setCreateid(String createid) {
         this.createid = createid;
     }
 

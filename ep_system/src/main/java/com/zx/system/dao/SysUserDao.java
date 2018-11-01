@@ -99,7 +99,7 @@ public interface SysUserDao {
      */
     SysUserRole selectUserRoleByUserId(@Param("userid") String userid);
 
-    int insertUserRole(@Param("id") String id, @Param("userId") String userId, @Param("roleId") Integer roleId);
+    int insertUserRole(@Param("id") String id, @Param("userId") String userId, @Param("roleId") String roleId);
 
     SysUser selectUserByLogin(@Param("loginid") String loginid, @Param("password") String password);
 

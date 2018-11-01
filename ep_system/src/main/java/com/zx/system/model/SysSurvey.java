@@ -17,7 +17,7 @@ public class SysSurvey implements Serializable {
     private String content;
     private Date starttime;
     private Date endtime;
-    private Integer createrid;
+    private String createrid;
     private Date createtime;
     private String creatername;
     private Integer state;
@@ -83,11 +83,11 @@ public class SysSurvey implements Serializable {
         this.endtime = endtime;
     }
 
-    public Integer getCreaterid() {
+    public String getCreaterid() {
         return this.createrid;
     }
 
-    public void setCreaterid(Integer createrid) {
+    public void setCreaterid(String createrid) {
         this.createrid = createrid;
     }
 

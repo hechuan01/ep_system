@@ -11,15 +11,18 @@ import com.zx.system.model.SysUser;
 import com.zx.system.service.DepartmentService;
 import com.zx.system.service.RoleService;
 import com.zx.system.service.UserService;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/edit")
     public String edit(Model model, String id) {
         SysUser user = new SysUser();
-        if (id != null) {
+        if (!StringUtils.isEmpty(id)) {
             user = userService.selectById(id);
             model.addAttribute("isNew", false);
         } else {

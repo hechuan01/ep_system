@@ -46,7 +46,7 @@ public interface RoleService {
     
     List<SysRole> getList(Map map);
 
-    int updateRoleModules(Integer roleId ,List<SysRolemodule> rmList);
+    int updateRoleModules(String roleId ,List<SysRolemodule> rmList);
 }
 
 

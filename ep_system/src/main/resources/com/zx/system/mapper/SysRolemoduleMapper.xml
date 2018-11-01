@@ -63,11 +63,14 @@
 
     <!-- 插入 （匹配有值的字段）-->
     <insert id="insert" parameterType="SysRolemodule">
-        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+        <!-- <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
-        </selectKey>
+        </selectKey> -->
         INSERT INTO sys_rolemodules
         <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+                id,
+            </if>
             <if test="roleid != null">
                 roleid,
             </if>
@@ -76,6 +79,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id!=null">
+                #{id},
+            </if>
             <if test="roleid!=null">
                 #{roleid},
             </if>

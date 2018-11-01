@@ -17,7 +17,7 @@ public class SysNotice implements Serializable {
     private String content;
     private Date starttime;
     private Date endtime;
-    private Integer createrid;
+    private String createrid;
     private String creatername;
     private Date createtime;
     private Integer state;
@@ -67,11 +67,11 @@ public class SysNotice implements Serializable {
         this.endtime = endtime;
     }
 
-    public Integer getCreaterid() {
+    public String getCreaterid() {
         return createrid;
     }
 
-    public void setCreaterid(Integer createrid) {
+    public void setCreaterid(String createrid) {
         this.createrid = createrid;
     }
 

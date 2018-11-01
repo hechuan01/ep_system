@@ -1,6 +1,8 @@
 package com.zx.system.dao;
 
 import com.zx.system.model.SysRolemodule;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public interface SysRolemoduleDao {
 	/**
 	 * 插入记录
 	 */
-	int insert(SysRolemodule sysRolemodule);
+	int insert(@Param("id") String id, @Param("roleid") String roleid,@Param("mcode") String mcode);
 
 	/**
 	 * 批量插入记录
@@ -38,5 +40,5 @@ public interface SysRolemoduleDao {
 	 */
 	SysRolemodule selectById(Integer id);
 
-    int deleteByRoleId(Integer roleId);
+    int deleteByRoleId(String roleId);
 }

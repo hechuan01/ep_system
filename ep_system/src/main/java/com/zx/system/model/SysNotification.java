@@ -17,7 +17,7 @@ public class SysNotification implements Serializable {
     private Integer targettype;
     private String targettypeName;
     private String targetkey;
-    private Integer createrid;
+    private String createrid;
     private Date createtime;
     private Integer state;
 
@@ -79,11 +79,11 @@ public class SysNotification implements Serializable {
         return this.targetkey;
     }
 
-    public void setCreaterid(Integer createrid) {
+    public void setCreaterid(String createrid) {
         this.createrid = createrid;
     }
 
-    public Integer getCreaterid() {
+    public String getCreaterid() {
         return this.createrid;
     }
 

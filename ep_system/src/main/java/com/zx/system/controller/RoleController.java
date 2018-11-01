@@ -46,12 +46,12 @@ public class RoleController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(Integer id) {
+    public Object delete(String id) {
         ReturnModel msg = new ReturnModel();
 
         if (id != null) {
             try {
-                SysRole role = roleService.selectById(id.intValue());
+                SysRole role = roleService.selectById(id);
 
                 role.setState(-1);
                 roleService.update(role);
@@ -162,7 +162,7 @@ public class RoleController extends BaseController {
 
     @RequestMapping("/module")
     @SuppressWarnings("unchecked")
-    public String module(Model model, Integer id) {
+    public String module(Model model, String id) {
         model.addAttribute("id", id);
         //全部模块
 //        List<SysModule> sysModules = moduleService.getList();
@@ -170,7 +170,7 @@ public class RoleController extends BaseController {
 //        request.setAttribute("sysModules", sysModules);
         //获取角色已分配的模块
         SysRole sysRole = roleService.selectById(id);
-        List<Integer> ids = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
         for (SysModule item : sysRole.getModules()) {
             ids.add(item.getId());
         }
@@ -180,7 +180,7 @@ public class RoleController extends BaseController {
 
     @RequestMapping(value = "/submitModule")
     @ResponseBody
-    public Object submitModule(Integer id, String checkedIDs) throws JsonProcessingException {
+    public Object submitModule(String id, String checkedIDs) throws JsonProcessingException {
 //        role = roleService.update(role);
         ReturnModel rm = new ReturnModel();
         //插入角色菜单关联表

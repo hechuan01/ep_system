@@ -25,7 +25,7 @@ public class SysAttachment implements Serializable {
     /*附件描述*/
     private String remark;
     /*创建人*/
-    private Integer createrid;
+    private String createrid;
     /*创建时间*/
     private Date createtime;
     /*状态(-1删除0默认)*/
@@ -79,11 +79,11 @@ public class SysAttachment implements Serializable {
         this.remark = remark;
     }
 
-    public Integer getCreaterid() {
+    public String getCreaterid() {
         return createrid;
     }
 
-    public void setCreaterid(Integer createrid) {
+    public void setCreaterid(String createrid) {
         this.createrid = createrid;
     }
 

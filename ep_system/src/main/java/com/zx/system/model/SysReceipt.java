@@ -10,7 +10,7 @@ public class SysReceipt implements Serializable {
 	private BigInteger id;
 	private Integer rectype;
 	private Integer targetid;
-	private Integer createrid;
+	private String createrid;
 	private Date createtime;
 	private String content;
 
@@ -38,11 +38,11 @@ public class SysReceipt implements Serializable {
 		return this.targetid;
 	}
 
-	public void setCreaterid(Integer createrid){
+	public void setCreaterid(String createrid){
 		this.createrid = createrid;
 	}
 
-	public Integer getCreaterid(){
+	public String getCreaterid(){
 		return this.createrid;
 	}
 
