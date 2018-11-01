@@ -1,12 +1,15 @@
 package com.zx.system.service.impl;
 
+import com.zx.common.utils.UUIDUtil;
 import com.zx.system.dao.SysModuleDao;
 import com.zx.system.model.SysModule;
 import com.zx.system.service.ModuleService;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+
 import java.util.List;
 
 /**
@@ -28,15 +31,16 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public SysModule selectById(Integer id) {
+    public SysModule selectById(String id) {
         return sysModuleDao.selectById(id);
     }
 
     @Override
     public SysModule update(SysModule sysModule) {
-        if (sysModule.getId() != null) {
+        if (sysModule.getId() != null && !"".equals(sysModule.getId())) {
             sysModuleDao.update(sysModule);
         } else {
+        	sysModule.setId(UUIDUtil.getUUID());
             sysModuleDao.insert(sysModule);
         }
 
@@ -55,7 +59,11 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public List<SysModule> getSubModules(String parentCode) {
-        return sysModuleDao.getSubModules(parentCode);
+    	Integer length = 0;
+    	if(parentCode != null && !"".equals(parentCode)){
+    		length = parentCode.length();
+    	}
+        return sysModuleDao.getSubModules(parentCode,length);
     }
 
 

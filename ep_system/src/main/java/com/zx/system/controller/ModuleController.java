@@ -52,7 +52,7 @@ public class ModuleController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String edit(Integer id, Model model) {
+    public String edit(String id, Model model) {
         SysModule sysModule = new SysModule();
         if (id != null) {
             sysModule = moduleService.selectById(id);
@@ -68,7 +68,7 @@ public class ModuleController extends BaseController {
     public Object submit(SysModule sysModule, String parentCode, Model model) {
         ReturnModel rm = new ReturnModel();
         try {
-            if (sysModule.getId() == null) {
+            if (sysModule.getId() == null || "".equals(sysModule.getId())) {
                 Map.Entry entry = generateModuleSubCode(parentCode);
                 if (entry != null && (boolean) entry.getKey()) {
                     sysModule.setMcode(entry.getValue().toString());
@@ -98,11 +98,11 @@ public class ModuleController extends BaseController {
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public Object delete(Integer id) {
+    public Object delete(String id) {
         ReturnModel msg = new ReturnModel();
         if (id != null) {
             try {
-                SysModule sysModule = moduleService.selectById(id.intValue());
+                SysModule sysModule = moduleService.selectById(id);
                 sysModule.setState(-1);
                 moduleService.update(sysModule);
                 msg.setState(true);

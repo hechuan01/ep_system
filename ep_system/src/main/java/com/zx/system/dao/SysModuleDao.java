@@ -1,6 +1,8 @@
 package com.zx.system.dao;
 
 import com.zx.system.model.SysModule;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public interface SysModuleDao {
     /**
      * 根据Id获取对象
      */
-    SysModule selectById(Integer id);
+    SysModule selectById(String id);
 
     /**
      * 查询菜单所有列表
@@ -45,5 +47,5 @@ public interface SysModuleDao {
 
     List<SysModule> selectByIds(List<Integer> ids);
 
-    List<SysModule> getSubModules(String code);
+    List<SysModule> getSubModules(@Param("code") String code,@Param("length") Integer length);
 }

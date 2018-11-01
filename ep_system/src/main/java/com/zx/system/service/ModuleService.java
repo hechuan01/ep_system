@@ -14,7 +14,7 @@ import java.util.List;
 public interface ModuleService {
     List<SysModule> getList();
 
-    SysModule selectById(Integer id);
+    SysModule selectById(String id);
 
     SysModule update(SysModule sysModule);
 

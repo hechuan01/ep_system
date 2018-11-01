@@ -113,11 +113,14 @@
 
     <!-- 插入 （匹配有值的字段）-->
     <insert id="insert" parameterType="SysModule">
-        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+        <!-- <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
-        </selectKey>
+        </selectKey> -->
         INSERT INTO sys_modules
         <trim prefix="(" suffix=")" suffixOverrides=",">
+        	<if test="id != null">
+                id,
+            </if>
             <if test="mname != null">
                 mname,
             </if>
@@ -147,6 +150,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+        	<if test="id!=null">
+                #{id},
+            </if>
             <if test="mname!=null">
                 #{mname},
             </if>
@@ -341,6 +347,6 @@
         select
         <include refid="base_column_list"/>
         from sys_modules where mcode LIKE concat(#{code}, '%')
-        AND LENGTH(mcode) = LENGTH(#{mcode})+3  AND state!=-1 ORDER BY sortNum,createtime;
+        AND LENGTH(mcode) = #{length}+3  AND state!=-1 ORDER BY sortNum,createtime;
     </select>
 </mapper>
