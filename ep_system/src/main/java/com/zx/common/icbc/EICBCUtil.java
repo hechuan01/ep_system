@@ -64,7 +64,12 @@ public class EICBCUtil {
 		}
 		String result = HttpClientUtils.doGet(url, map);
 		User user = Json.fromJson(User.class, result);
-		String nickname = new String(user.getNickname().getBytes(), Charset.forName("utf-8"));//处理融e联接口返回的中文乱码
+		String nickname = null;
+		try {//处理融e联接口返回的中文乱码
+			nickname = new String(user.getNickname().getBytes("iso-8859-1"), Charset.forName("utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		user.setNickname(nickname);
 		return user;
 	}
