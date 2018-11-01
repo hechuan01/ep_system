@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="padding">
-    <form:form modelAttribute="sysRole" id="form" action="submit.html" class="col-sm-12" method="post">
+    <form:form modelAttribute="sysRole" id="form" class="col-sm-12" method="post">
         <input type="hidden" name="id" value="${sysRole.id}">
         <div class="row">
             <div class="col-xs-6 form-group">
@@ -48,7 +48,7 @@
         //提交表单并验证合法性
         $("#form").validate({
             rules: {
-                rolename: {required: true, maxlength: 20, minlength: 6},
+                rolename: {required: true},
                 roletype: {required: true}
             },
             submitHandler: function (form) {

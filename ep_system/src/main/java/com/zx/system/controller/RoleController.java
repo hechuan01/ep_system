@@ -76,7 +76,7 @@ public class RoleController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/edit.html")
+    @RequestMapping(value = "/edit")
     public String edit(Model model, String id) {
         SysRole role = new SysRole();
 
@@ -161,7 +161,6 @@ public class RoleController extends BaseController {
     }
 
     @RequestMapping("/module")
-    @SuppressWarnings("unchecked")
     public String module(Model model, String id) {
         model.addAttribute("id", id);
         //全部模块
@@ -185,9 +184,9 @@ public class RoleController extends BaseController {
         ReturnModel rm = new ReturnModel();
         //插入角色菜单关联表
         try {
-            List<Integer> ids = new ArrayList<>();
+            List<String> ids = new ArrayList<>();
             for (String item : checkedIDs.split(",")) {
-                ids.add(Integer.parseInt(item));
+                ids.add(item);
             }
 
             List<SysModule> list = moduleService.selectByIds(ids);

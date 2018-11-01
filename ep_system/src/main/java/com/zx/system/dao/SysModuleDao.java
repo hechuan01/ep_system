@@ -45,7 +45,7 @@ public interface SysModuleDao {
 
     SysModule selectByCode(String code);
 
-    List<SysModule> selectByIds(List<Integer> ids);
+    List<SysModule> selectByIds(List<String> ids);
 
     List<SysModule> getSubModules(@Param("code") String code,@Param("length") Integer length);
 }

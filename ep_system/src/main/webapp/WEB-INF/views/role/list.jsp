@@ -79,7 +79,7 @@
     function edit(id) {
         dialog.iframe('${ctx}/role/edit.html?id=' + (id == undefined ? "" : id), {
             title: id != undefined ? '编辑角色' : '添加角色',
-            size: [500,320]
+            size: [500,350]
         }, function (result) {
             if (result) {
                 viewModel.Reload();

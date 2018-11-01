@@ -53,7 +53,7 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public List<SysModule> selectByIds(List<Integer> ids) {
+    public List<SysModule> selectByIds(List<String> ids) {
         return sysModuleDao.selectByIds(ids);
     }
 

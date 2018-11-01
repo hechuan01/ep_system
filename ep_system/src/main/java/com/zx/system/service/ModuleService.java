@@ -20,7 +20,7 @@ public interface ModuleService {
 
     SysModule selectByCode(String parentCode);
 
-    List<SysModule> selectByIds(List<Integer> ids);
+    List<SysModule> selectByIds(List<String> ids);
 
     List<SysModule> getSubModules(String parentCode);
 }
