@@ -141,7 +141,7 @@ public class HomeController extends BaseController {
 //                        httpSession.setAttribute("allModules", allModules);
 //                    }
 
-                    //isLogin(httpSession);
+                    isLogin(httpSession);//TODO 保证loginInfo信息随登陆人改变
                     rm.setState(true);
                     rm.setMessage("登录成功，即将跳转至首页！");
                 }
