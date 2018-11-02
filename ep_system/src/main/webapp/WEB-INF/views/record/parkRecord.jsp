@@ -24,7 +24,13 @@ body, html {
 	margin-right: 5px;
 }
 </style>
-<html>
+<!DOCTYPE html>
+<html style="touch-action: none">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="apple-moblie-web-app-capable" content="yes">
+<meta name="apple-moblie-web-app-status-bar-style" content="black">
+<title>停车记录</title>
 <head>
     <jsp:include page="../shared/head.jsp"></jsp:include>
 </head>
@@ -99,7 +105,7 @@ function selectRecord(pageIndex) {
           json = $.parseJSON(data);
           for (i=0; i<10; i++) {
         	  li = document.createElement('li');
-		      li.innerHTML="<span class='record-li'>-￥"+json[i].cost+"</span>"+
+		      li.innerHTML="<span class='record-li'>￥"+json[i].cost+"</span>"+
 	            "<h4 class='list-group-item-heading' align='left'>"+json[i].plateNumber+"</h4>"+
 	            "<p class='list-group-item-text' align='left'>"+json[i].startTime+"~"+json[i].endTime+"</p>"
 			  el.appendChild(li, el.childNodes[0]);

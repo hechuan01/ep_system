@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zx.common.annotation.NotAuthPassport;
 import com.zx.common.utils.PagerModel;
 import com.zx.system.model.SysRole;
 import com.zx.system.service.RoleService;
@@ -33,6 +34,7 @@ public class RecordController {
      *
      * @return
      */
+	@NotAuthPassport
     @RequestMapping(value = "/parkRecord")
     public String parkRecord() {
     	
@@ -47,6 +49,7 @@ public class RecordController {
      * @return
      * @throws JsonProcessingException
      */
+    @NotAuthPassport
     @RequestMapping(value = "/selectList")
     @ResponseBody
     public Object selectList(Integer pageSize, Integer pageIndex) throws JsonProcessingException {
