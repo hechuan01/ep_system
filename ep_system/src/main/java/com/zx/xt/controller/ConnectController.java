@@ -2,7 +2,9 @@ package com.zx.xt.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -75,4 +77,13 @@ public class ConnectController {
          byte[] plainText = RSA.icbcRsaPubDe(data, path);
          return Base64.icbcbase64decode(new String(plainText));
      }
+     
+     public static void main(String[] args) {
+		try {
+			String s = URLEncoder.encode("", "utf-8");
+			System.out.println(s);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 }
