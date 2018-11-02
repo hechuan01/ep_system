@@ -1,5 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html>
+<html style="touch-action: none">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="apple-moblie-web-app-capable" content="yes">
+<meta name="apple-moblie-web-app-status-bar-style" content="black">
+<title>停车记录</title>
+<link href="${ctx}/scripts/plugins/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="${ctx}/css/style.css" rel="stylesheet"/>
 <link href="${ctx}/css/mobile.css" type="text/css" rel="stylesheet"/>
+<script src="${ctx}/scripts/common/jquery-1.10.2.min.js"></script>
 <link rel="stylesheet" href="${ctx}/css/reset.css" />
 <link rel="stylesheet" href="${ctx}/css/pullToRefresh.css" />
 <style type="text/css" media="all">
@@ -24,15 +37,6 @@ body, html {
 	margin-right: 5px;
 }
 </style>
-<!DOCTYPE html>
-<html style="touch-action: none">
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<meta name="apple-moblie-web-app-capable" content="yes">
-<meta name="apple-moblie-web-app-status-bar-style" content="black">
-<title>停车记录</title>
-<head>
-    <jsp:include page="../shared/head.jsp"></jsp:include>
 </head>
 <body>
 <div class="MyPosition" style="text-align:center;font-size:28px;font-weight:bold"><span class="gray">停车记录</span></div>
@@ -48,18 +52,10 @@ body, html {
     <div class="clearfix"></div>
 </div>
 
-<!-- <ul class="list-group">
-    <li class="list-group-item">免费域名注册</li>
-    <li class="list-group-item">免费 Window 空间托管</li>
-    <li class="list-group-item">图像的数量</li>
-    <li class="list-group-item">24*7 支持</li>
-    <li class="list-group-item">每年更新成本</li>
-</ul> -->
 
 <div id="wrapper">
 	<ul class="list-group" id="body-li"></ul>
 </div>
-<jsp:include page="../shared/footer.jsp"></jsp:include>
 <script src="${ctx}/scripts/common/iscroll.js"></script>
 <script src="${ctx}/scripts/common/pullToRefresh.js"></script>
 <script>
