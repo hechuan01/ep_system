@@ -54,7 +54,7 @@ public class RecordController {
     @ResponseBody
     public Object selectList(Integer pageSize, Integer pageIndex) throws JsonProcessingException {
     	if (pageSize == null) {
-            pageSize = 5;
+            pageSize = 10;
         }
         if (pageIndex == null) {
             pageIndex = 1;

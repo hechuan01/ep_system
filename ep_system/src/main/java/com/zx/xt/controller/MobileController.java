@@ -35,7 +35,8 @@ public class MobileController {
 		AccessToken token = tokenUtil.getAccessToken(code);
 		System.out.println(token.getAccess_token());
 		User user = tokenUtil.getUser(token);
-		System.out.println(user.getMobileno());
+		
+		System.out.println(user.getMobileno()+"-----------"+user.getNickname());
 		CardList cardList = tokenUtil.getCardList(token, user);
 		
 		List<Card> list = cardList.getiProList();
